@@ -7,7 +7,7 @@
  
     <persistence-unit
         name="HypersistenceOptimizer"
-        transaction-type="JTA">
+        transaction-type="RESOURCE_LOCAL">
  
         <description>
             Hypersistence Optimizer is a dynamic analyzing tool that can scan
@@ -17,14 +17,46 @@
         </description>
  
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
- 
-        <jta-data-source>java:global/jdbc/default</jta-data-source>
+        <class>core.model.CAuthorization</class>
+        <class>core.model.CColumn</class>
+        <class>core.model.CGrade</class>
+        <class>core.model.CGroup</class>
+        <class>core.model.CGroupPerson</class>
+        <class>core.model.CLetter</class>
+        <class>core.model.CLocality</class>
+        <class>core.model.CMenu</class>
+        <class>core.model.COrganization</class>
+        <class>core.model.CPerson</class>
+        <class>core.model.CPersonAuthorization</class>
+        <class>core.model.CPersonOrganization</class>
+        <class>core.model.CProcess</class>
+        <class>core.model.CProcessType</class>
+        <class>core.model.CProcessView</class>
+        <class>core.model.CProvince</class>
+        <class>core.model.CReport</class>
+        <class>core.model.CRol</class>
+        <class>core.model.CRolMenu</class>
+        <class>core.model.CTable</class>
+        <class>core.model.CTheme</class>
+        <class>core.model.CThemeView</class>
+        <class>core.model.CUser</class>
+        <class>core.model.CUserPreference</class>
+        <class>core.model.CUserPreferencesTheme</class>
+        <class>core.model.CUserRecovery</class>
+        <class>core.model.CUserRol</class>
+        <class>core.model.CView</class>
+        <class>core.model.CWindow</class>
+        <class>core.model.CWindowTable</class>
  
         <properties>          
             <property
                 name="hibernate.transaction.jta.platform"
                 value="SunOne"
             />
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/canamito"/>
+            <property name="javax.persistence.jdbc.user" value="canamito"/>
+            <property name="javax.persistence.jdbc.password" value="canamito"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
         </properties>
     </persistence-unit>
 </persistence>
