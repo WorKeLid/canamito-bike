@@ -8,7 +8,7 @@
 		</Console>
 
 		<File name="FileAppender"
-			fileName="canamito_${date:yyyyMMdd}.log" immediateFlush="true"
+			fileName="canamito_${date:yyyyMMdd}.log" immediateFlush="false"
 			append="true">
 			<PatternLayout
 				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
