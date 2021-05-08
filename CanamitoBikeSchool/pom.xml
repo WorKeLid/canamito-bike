@@ -5,19 +5,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>CanamitoBike</artifactId>
 		<groupId>es.canamitobike</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>CanamitoBike</artifactId>
+		<version>0.210508</version>
 	</parent>
 
-	<!-- <groupId>es.canamitobike</groupId> -->
 	<artifactId>CanamitoBikeSchool</artifactId>
-	<!-- <version>0.0.1-SNAPSHOT</version> -->
 	<packaging>war</packaging>
 
 	<name>CanamitoBikeSchool Maven Webapp</name>
 	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<url>http://www.canamitobike.com</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,13 +28,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>es.canamitobike</groupId>
-			<artifactId>CanamitoBikeCore</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>war</type>
 		</dependency>
 	</dependencies>
 

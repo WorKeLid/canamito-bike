@@ -5,19 +5,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>CanamitoBike</artifactId>
 		<groupId>es.canamitobike</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>CanamitoBike</artifactId>
+		<version>0.210508</version>
 	</parent>
 
-	<!-- <groupId>es.canamitobike</groupId> -->
-	<artifactId>CanamitoBikeCore</artifactId>
-	<!-- <version>0.0.1-SNAPSHOT</version> -->
+	<artifactId>CanamitoBikeApp</artifactId>
 	<packaging>war</packaging>
 
-	<name>CanamitoBikeCore Maven Webapp</name>
+	<name>CanamitoBikeApp</name>
 	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<url>http://www.canamitobike.com</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,10 +29,18 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>es.canamitobike</groupId>
+			<artifactId>CanamitoBikeSchool</artifactId>
+			<version>0.210508</version>
+			<type>war</type>
+		</dependency>
+
 	</dependencies>
 
 	<build>
-		<finalName>CanamitoBikeCore</finalName>
+		<finalName>CanamitoBikeApp</finalName>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
 				defaults (may be moved to parent pom) -->
 			<plugins>
