@@ -3,5 +3,44 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+	<display-name>Archetype Created Web Application</display-name>
+	<!-- 
+	<filter>
+		<filter-name>CanamitoMainFilter</filter-name>
+		<display-name>CanamitoMainFilter</display-name>
+		<description>Filtro principal de CañamitoBike</description>
+		<filter-class>org.canamito.core.controller.CanamitoMainFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CanamitoMainFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	-->
+<!-- SERVLET 
+	<servlet>
+		<servlet-name>CanamitoMainController</servlet-name>
+		<display-name>CanamitoMainController</display-name>
+		<description>Controlador principal de CañamitoBike</description>
+		<servlet-class>org.canamito.core.controller.CanamitoMainController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>CanamitoMainController</servlet-name>
+		<url-pattern>/CanamitoMainController</url-pattern>
+	</servlet-mapping>
+FIN SERVLET -->
+
+<!-- JSP -->
+<!--
+	<servlet>
+		<servlet-name>HomePage</servlet-name>
+		<jsp-file>/WEB-INF/jsp/org/canamito/core/view/HomePage.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HomePage</servlet-name>
+		<url-pattern>/HomePage</url-pattern>
+	</servlet-mapping>
+-->
+<!-- FIN JSP -->
+
 </web-app>
