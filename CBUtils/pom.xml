@@ -11,10 +11,9 @@
 	</parent>
 
 	<artifactId>CBUtils</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>CBUtils</name>
-	<!-- FIXME change it to the project's website -->
 	<url>http://www.canamitobike.com</url>
 
 	<properties>
@@ -28,13 +27,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>es.canamitobike</groupId>
-			<artifactId>CBUtils</artifactId>
-			<version>0.1</version>
-			<type>war</type>
 		</dependency>
 	</dependencies>
 

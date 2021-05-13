@@ -302,13 +302,13 @@ INSERT INTO c_locality (c_locality_id, postal_code, name, fk_c_province_id) VALU
 INSERT INTO c_locality (c_locality_id, postal_code, name, fk_c_province_id) VALUES(34271, '41520', 'Viso Del Alcor, El', '41');
 
 INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone_number, is_verified, is_active, fk_authorizer_id, fk_c_locality_id)
-  VALUES (1, '28815481t', 'Miguel Ángel', 'Castañeda García', '1993-08-09', 'Gertrudis Gómez de Avellaneda, Nº 14', '645635989', true, true, null, 34234);
+  VALUES (1, '29987891t', 'Miguel Ángel', 'Castañeda García', '1993-08-09', 'Germos tras, Nº 14', '645735089', true, true, null, 34234);
 INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone_number, is_verified, is_active, fk_authorizer_id, fk_c_locality_id)
-  VALUES (2, '12345678a', 'Padre', 'Padre', '1988-10-07', 'Gertrudis Gómez de Avellaneda, Nº 68', '945793123', true, true, null, 34225);
+  VALUES (2, '12345678a', 'Padre', 'Padre', '1988-10-07', 'Germos tras, Nº 68', '943393123', true, true, null, 34225);
 INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone_number, is_verified, is_active, fk_authorizer_id, fk_c_locality_id)
-  VALUES (3, '87654321a', 'Hijo', 'Hijo', '2011-08-09', 'Gertrudis Gómez de Avellaneda, Nº 68', '945793123', true, true, 2, 34225);
+  VALUES (3, '87654321a', 'Hijo', 'Hijo', '2011-08-09', 'Germos tras, Nº 68', '943393123', true, true, 2, 34225);
 INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone_number, is_verified, is_active, fk_authorizer_id, fk_c_locality_id)
-  VALUES (4, '87654321b', 'Hija', 'Hija', '2011-12-02', 'Gertrudis Gómez de Avellaneda, Nº 68', '945793123', true, false, 2, 34225);
+  VALUES (4, '87654321b', 'Hija', 'Hija', '2011-12-02', 'Germos tras, Nº 68', '943393123', true, false, 2, 34225);
 
 INSERT INTO c_authorization (c_authorization_id, name, terms_description)
   VALUES (1, 'Inscripción', 'Autorizo a mi hijo/a a que pueda realizar las actividades del curso sobre ciclismo, pudiendo realizarlas tanto dentro como fuera del recinto escolar');

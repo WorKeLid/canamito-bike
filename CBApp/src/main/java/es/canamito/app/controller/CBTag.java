@@ -4,6 +4,14 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.tagext.TryCatchFinally;
 
+/**
+ * Etiqueta usada por las vistas jsp
+ * 
+ * @author wkl
+ * @version 0.1
+ */
+// TODO: Documentación
+// TODO: Implementación
 public class CBTag extends TagSupport implements TryCatchFinally {
 
 	private static final long serialVersionUID = 1L;
@@ -13,9 +21,9 @@ public class CBTag extends TagSupport implements TryCatchFinally {
 		JspWriter out = pageContext.getOut();
 
 		try {
-			// TODO:
+
 		} catch (Exception e) {
-			// TODO:
+
 		}
 
 		// No va a evaluar el contenido del cuerpo de la etiqueta
@@ -23,25 +31,17 @@ public class CBTag extends TagSupport implements TryCatchFinally {
 	}
 
 	public int doAfterBody() {
-		// TODO:
 		return 0;
 	}
 
 	public int doEndTag() {
-// TODO: 
 		return 0;
 	}
 
-	@Override
 	public void doCatch(Throwable arg0) throws Throwable {
-		// TODO Auto-generated method stub
-
 	}
 
-	@Override
 	public void doFinally() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

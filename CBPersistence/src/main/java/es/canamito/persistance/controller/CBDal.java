@@ -29,7 +29,7 @@ public class CBDal {
 			setEntityManager(getEntityManagerFactory().createEntityManager());
 			setEntityTransaction(getEntityManager().getTransaction());
 		} catch (PersistenceException pe) {
-			System.out.println(pe.getLocalizedMessage());
+			log.fatal(pe.getLocalizedMessage());
 		}
 	}
 
