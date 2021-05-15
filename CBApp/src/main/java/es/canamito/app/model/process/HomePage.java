@@ -1,37 +1,27 @@
 package es.canamito.app.model.process;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import es.canamito.app.model.ProcessObject;
-
 /**
  * Proceso para generar la página principal de CañamitoBike
  * 
  * @author wkl
- * @version 0.1
+ * @version 1.210515 - Documentación del proceso HomePage
  */
-// TODO: Documentación
-// TODO: Implementación
-public class HomePage implements Process {
+public class HomePage extends CBProcessImpl implements CBProcess {
 
 	public HomePage() {
-
+		super();
 	}
 
-	public HttpServletRequest getRequest() {
-		return null;
-	}
+	public void execute() {
+		// TODO: Implementación
+		this.setViewPath("WEB-INF/jsp/es/canamito/app/view/process/HomePage.jsp");
 
-	public HttpServletResponse getResponse() {
-		return null;
-	}
+		try {
+			log.debug("executing to " + getViewPath());
+			this.getRequest().getRequestDispatcher(getViewPath()).forward(getRequest(), getResponse());
+		} catch (Exception e) {
+			log.error(e.getClass() + ": " + e.getMessage());
+		}
 
-	public String getViewPath() {
-		return null;
-	}
-
-	public ProcessObject execute() {
-		return null;
 	}
 }

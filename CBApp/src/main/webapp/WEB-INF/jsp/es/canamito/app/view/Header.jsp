@@ -1,18 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ taglib uri="/WEB-INF/tags/es/canamito/app/tlds/cb" prefix="cb"%>
+<%@ taglib prefix="cb" uri="/WEB-INF/es/canamito/app/tlds/cb.tld"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="/css/es/canamito/app/css/BoostrapTheme.css"
-	rel="stylesheet" type="text/css">
+<link href="/css/es/canamito/app/css/BoostrapTheme.css" rel="stylesheet"
+	type="text/css">
 
-<title>Titulo dinámico que depende a que proceso entremos</title>
+<title>${param.title}"</title>
 </head>
-<body>
-
-</body>
-</html>

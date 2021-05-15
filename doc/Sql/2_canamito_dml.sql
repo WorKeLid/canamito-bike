@@ -5,6 +5,7 @@ DELETE FROM c_process_view;
 DELETE FROM c_theme_view;
 DELETE FROM c_view;
 DELETE FROM c_report;
+DELETE FROM c_window_table;
 DELETE FROM c_window;
 DELETE FROM c_column;
 DELETE FROM c_table;
@@ -360,7 +361,7 @@ INSERT INTO c_user (c_user_id, email, password, is_protected, is_active, fk_c_pe
 INSERT INTO c_user_preferences (c_user_preferences_id, fk_c_user_id) VALUES (1, 1);
 INSERT INTO c_user_preferences (c_user_preferences_id, fk_c_user_id) VALUES (2, 2);
 
-INSERT INTO c_theme (c_theme_id, name, description, css_path) VALUES (1, 'Tema Cañamito Bike', 'Tema génerico por defecto', '/core/css/canamito_theme.css');
+INSERT INTO c_theme (c_theme_id, name, description, css_path) VALUES (1, 'Tema Cañamito Bike', 'Tema génerico por defecto', '/css/es/canamito/app/css/BoostrapTheme.css');
 
 INSERT INTO c_user_preferences_theme (c_user_preferences_theme_id, fk_c_user_preferences_id, fk_c_theme_id) VALUES (1, 1, 1);
 INSERT INTO c_user_preferences_theme (c_user_preferences_theme_id, fk_c_user_preferences_id, fk_c_theme_id) VALUES (2, 2, 1);
@@ -380,12 +381,12 @@ INSERT INTO c_process_type (c_process_type_id, type) VALUES (1, 'Proceso');
 INSERT INTO c_process_type (c_process_type_id, type) VALUES (2, 'Ventana');
 INSERT INTO c_process_type (c_process_type_id, type) VALUES (3, 'Informe');
 
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (1, 'Ofrece la página principal de Cañamito', '/core/process/HomePage', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (2, 'Formulario de inicio de sesión', '/core/process/Login', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (3, 'Forumlario de registro para usuarios', '/core/process/SigninAuthorizer', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (4, 'Proceso para la gestión de la base de datos', '/core/process/SystemAdministration', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (5, 'Genera un informe de las personas', '/core/process/ReportGenerator', 3);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso que utiliza una ventana para acceder a información relacionada con las provincias', '/core/process/WindowGenerator', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (1, 'Ofrece la página principal de Cañamito', 'es.canamito.app.model.process.HomePage', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (2, 'Formulario de inicio de sesión', 'es.canamito.app.model.process.Login', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (3, 'Forumlario de registro para usuarios', 'es.canamito.app.model.process.SigninAuthorizer', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (4, 'Proceso para la gestión de la base de datos', 'es.canamito.app.model.process.SystemAdministration', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (5, 'Genera un informe de las personas', 'es.canamito.app.model.process.ReportGenerator', 3);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso que utiliza una ventana para acceder a información relacionada con las provincias', 'es.canamito.app.model.process.WindowGenerator', 2);
 
 -- Grupos de menú
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (1, 'Acciones', 'Grupo para los procesos', null, null);
@@ -450,14 +451,13 @@ INSERT INTO c_window_table (c_window_table_id, level, secuence, fk_c_table_id, f
 
 INSERT INTO c_report (c_report_id, report_path) VALUES (5, '/core/report/getTable.jrxml');
 
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (1, 'Cabecera', '/core/jsp/Header.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (2, 'Pie', '/core/jsp/Footer.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (3, 'Cuerpo', '/core/jsp/Body.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (4, 'Página principal', '/core/jsp/HomePage.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (5, 'Ventana', '/core/jsp/WindowGenerator.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (6, 'Visualizacion del sistema', '/core/jsp/SystemAdministration.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (7, 'Inicio de sesión', '/core/jsp/Login.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (8, 'Formulario de registo para usuarios', '/core/jsp/SigninAuthorizer.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (1, 'Cabecera', '/WEB-INF/jsp/es/canamito/app/view/Header.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (2, 'Pie', '/WEB-INF/jsp/es/canamito/app/view/Footer.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (3, 'Página principal', '/WEB-INF/jsp/es/canamito/app/view/process/HomePage.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (4, 'Ventana', '/WEB-INF/jsp/es/canamito/app/view/process/WindowGenerator.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (5, 'Visualizacion del sistema', '/WEB-INF/jsp/es/canamito/app/view/process/SystemAdministration.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (6, 'Inicio de sesión', '/WEB-INF/jsp/es/canamito/app/view/process/Login.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (7, 'Formulario de registo para usuarios', '/WEB-INF/jsp/es/canamito/app/view/process/SigninAuthorizer.jsp');
 
 INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (1, 1, 1);
 INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (2, 1, 2);
@@ -465,10 +465,9 @@ INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (
 INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (4, 1, 4);
 INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (5, 1, 5);
 INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (6, 1, 6);
-INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (7, 1, 7);
 
-INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (1, TRUE, 1, 4);
-INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (2, TRUE, 2, 7);
-INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (3, TRUE, 3, 8);
-INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (4, TRUE, 4, 6);
-INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (5, TRUE, 6, 5);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (1, TRUE, 1, 3);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (2, TRUE, 2, 6);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (3, TRUE, 3, 7);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (4, TRUE, 4, 5);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (5, TRUE, 6, 4);

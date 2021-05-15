@@ -15,7 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Filtro principal que evalua si el usuario tiene acceso a l proceso solicitado
+ * Filtro principal que evalua si el usuario tiene acceso al proceso solicitado
  */
 @WebFilter("/*")
 // TODO: Documentación
@@ -34,6 +34,10 @@ public class CBFlowFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		log.debug("doFilter to " + ((HttpServletRequest) request).getRequestURL().toString());
+		log.debug("doFilter to " + ((HttpServletRequest) request).getContextPath());
+		log.debug("doFilter to " + ((HttpServletRequest) request).getRequestURI());
+		log.debug("doFilter to " + ((HttpServletRequest) request).getServletPath());
+		log.debug("doFilter to " + ((HttpServletRequest) request).getPathInfo());
 		chain.doFilter(request, response);
 	}
 

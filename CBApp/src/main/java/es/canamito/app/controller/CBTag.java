@@ -18,16 +18,17 @@ public class CBTag extends TagSupport implements TryCatchFinally {
 
 	public int doStartTag() {
 
+		int res = EVAL_BODY_INCLUDE;
+
 		JspWriter out = pageContext.getOut();
 
 		try {
-
+			out.println("Saludos desde la etiqueta CBTag");
 		} catch (Exception e) {
-
+			// No va a evaluar el contenido del cuerpo de la etiqueta
+			res = SKIP_BODY;
 		}
-
-		// No va a evaluar el contenido del cuerpo de la etiqueta
-		return SKIP_BODY;
+		return res;
 	}
 
 	public int doAfterBody() {

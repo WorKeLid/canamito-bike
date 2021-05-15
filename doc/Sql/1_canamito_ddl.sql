@@ -238,7 +238,7 @@ CREATE TABLE c_view (
   c_view_id SERIAL PRIMARY KEY,
 
   name VARCHAR(64) NOT NULL UNIQUE,
-  jsp_path VARCHAR(64) NOT NULL UNIQUE
+  jsp_path VARCHAR(256) NOT NULL UNIQUE
 );
 
 CREATE TABLE c_theme_view (
