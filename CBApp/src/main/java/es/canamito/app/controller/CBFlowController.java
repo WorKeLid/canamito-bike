@@ -15,32 +15,29 @@ import es.canamito.app.model.process.CBProcess;
 
 /**
  * Controlador principal que ejecuta el proceso solicitado
+ * 
+ * @author wkl
+ * @version 1.210522 - Documentación e implementación inicial del controlador
+ *          principal
  */
-@WebServlet("/")
-// TODO: Documentación
-// TODO: Implementación
+@WebServlet("/app/*")
 public class CBFlowController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LogManager.getLogger();
 
-	public CBFlowController() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		log.debug("doGet to " + request.getServletPath());
-
+		log.debug("doGet to " + request.getRequestURI().substring(request.getContextPath().length()));
 		try {
-
-			String goingTo = request.getServletPath();
-			goingTo = goingTo.replace("/", "");
+			String goingTo = request.getRequestURI().substring(request.getContextPath().length());
+			goingTo = goingTo.replace("/app/", "");
 
 			Class<?> c = Class.forName("es.canamito.app.model.process." + goingTo);
 
 			CBProcess p = (CBProcess) c.getDeclaredConstructor().newInstance();
 
+			p.setServletContext(this.getServletContext());
 			p.setRequest(request);
 			p.setResponse(response);
 
@@ -48,16 +45,16 @@ public class CBFlowController extends HttpServlet {
 
 		} catch (Exception e) {
 			log.error(e.getClass() + ": " + e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp").forward(request,
+					response);
 		} finally {
 
 		}
-
-		// request.getRequestDispatcher("/index.jsp").forward(request, response);
-		// response.sendRedirect("Utils");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO: Implementar lógica sobre información recibida
 		doGet(request, response);
 	}
 }

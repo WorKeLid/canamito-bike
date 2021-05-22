@@ -16,32 +16,58 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Filtro principal que evalua si el usuario tiene acceso al proceso solicitado
+ * 
+ * @author wkl
+ * @version 1.210522 - Documentación e implementación inicial del filtro
  */
 @WebFilter("/*")
-// TODO: Documentación
-// TODO: Implementación
 public class CBFlowFilter implements Filter {
 
 	private static final Logger log = LogManager.getLogger();
 
-	public CBFlowFilter() {
-	}
-
 	public void init(FilterConfig fConfig) throws ServletException {
-		log.debug("init");
+		// Se invoca una sola vez al levantar Tomcat
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.debug("doFilter to " + ((HttpServletRequest) request).getRequestURL().toString());
-		log.debug("doFilter to " + ((HttpServletRequest) request).getContextPath());
-		log.debug("doFilter to " + ((HttpServletRequest) request).getRequestURI());
-		log.debug("doFilter to " + ((HttpServletRequest) request).getServletPath());
-		log.debug("doFilter to " + ((HttpServletRequest) request).getPathInfo());
-		chain.doFilter(request, response);
+
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
+
+		if (path.startsWith("/app/")) {
+			log.debug("doFilter to " + path);
+
+			if (grantAccess()) {
+				request.getRequestDispatcher(path).forward(request, response);
+			} else {
+				request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp")
+						.forward(request, response);
+			}
+
+		} else {
+			log.trace("doChain to " + path);
+			chain.doFilter(request, response);
+		}
 	}
 
 	public void destroy() {
-		log.debug("destroy");
+		// Llamado cada vez que pasa un tiempo y todos los doFilter han terminado
+	}
+
+	/**
+	 * Función que determina si se le concede acceso al usuario al recurso que está
+	 * solicitando
+	 * 
+	 * @return true si el usuario tiene acceso al recurso, false si no
+	 */
+	private boolean grantAccess() {
+		/*
+		 * 1. Obtener el usuario que hay en la session o anonimo si no hay 2. Evaluar si
+		 * ese usuario tiene acceso al recurso que está solicitando 3. Permitir el
+		 * acceso (chain.doFilter ...) o redirigir a página de acceso no autorizado
+		 */
+		// TODO: Implementación
+		return true;
 	}
 }

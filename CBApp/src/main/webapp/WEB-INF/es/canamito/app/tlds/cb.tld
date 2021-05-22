@@ -5,7 +5,7 @@
 	<shot-name>CBTag</shot-name>
 
 	<tag>
-		<name>CBTag</name>
-		<tag-class>es.canamito.app.controller.CBTag</tag-class>
+		<name>CBTHelloWorld</name>
+		<tag-class>es.canamito.app.controller.tags.CBTHelloWorld</tag-class>
 	</tag>
 </taglib>

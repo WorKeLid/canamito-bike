@@ -1,4 +1,4 @@
-package es.canamito.app.controller;
+package es.canamito.app.controller.tags;
 
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -12,7 +12,7 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
  */
 // TODO: Documentación
 // TODO: Implementación
-public class CBTag extends TagSupport implements TryCatchFinally {
+public class CBTHelloWorld extends TagSupport implements TryCatchFinally {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class CBTag extends TagSupport implements TryCatchFinally {
 		JspWriter out = pageContext.getOut();
 
 		try {
-			out.println("Saludos desde la etiqueta CBTag");
+			out.println("<pre>Saludos desde la etiqueta CBTHelloWorld</pre>");
 		} catch (Exception e) {
 			// No va a evaluar el contenido del cuerpo de la etiqueta
 			res = SKIP_BODY;

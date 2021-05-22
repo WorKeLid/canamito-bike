@@ -25,35 +25,35 @@ public class CBDal {
 	 */
 	public CBDal() {
 		try {
-			setEntityManagerFactory(Persistence.createEntityManagerFactory("TallerMecanicoSinSpringPU"));
+			setEntityManagerFactory(Persistence.createEntityManagerFactory("HypersistenceOptimizer"));
 			setEntityManager(getEntityManagerFactory().createEntityManager());
 			setEntityTransaction(getEntityManager().getTransaction());
-		} catch (PersistenceException pe) {
-			log.fatal(pe.getLocalizedMessage());
+		} catch (PersistenceException e) {
+			log.fatal(e.getClass() + ": " + e.getMessage());
 		}
 	}
 
-	private EntityManagerFactory getEntityManagerFactory() {
+	public EntityManagerFactory getEntityManagerFactory() {
 		return this.emf;
 	}
 
-	private EntityManager getEntityManager() {
+	public EntityManager getEntityManager() {
 		return this.em;
 	}
 
-	private EntityTransaction getEntityTransaction() {
+	public EntityTransaction getEntityTransaction() {
 		return this.tx;
 	}
 
-	private void setEntityManagerFactory(EntityManagerFactory emf) {
+	public void setEntityManagerFactory(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
 
-	private void setEntityManager(EntityManager em) {
+	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}
 
-	private void setEntityTransaction(EntityTransaction tx) {
+	public void setEntityTransaction(EntityTransaction tx) {
 		this.tx = tx;
 	}
 }

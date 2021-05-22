@@ -1,5 +1,6 @@
 package es.canamito.app.model.process;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,13 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.210515 - Documentacion e implementación de la interfaz
  */
 public interface CBProcess {
+
+	/**
+	 * 
+	 * @return Devuelve el contexto en el que se ha ejecutado el controlador
+	 *         principal
+	 */
+	ServletContext getServletContext();
 
 	/**
 	 * @return La peticion que ha recibido el controlador principal
@@ -26,6 +34,13 @@ public interface CBProcess {
 	 * @return La ruta a la vista que ofrecerá la respuesta generada por el proceso
 	 */
 	String getViewPath();
+
+	/**
+	 * 
+	 * @param servletContext Asigna el contexto en el que se está ejecutando el
+	 *                       controlador principal
+	 */
+	void setServletContext(ServletContext servletContext);
 
 	/**
 	 * @param request Asigna una petición
