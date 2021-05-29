@@ -2,7 +2,6 @@ SET search_path = canamito;
 
 SET session_replication_role = 'replica';
 DELETE FROM c_process_view;
-DELETE FROM c_theme_view;
 DELETE FROM c_view;
 DELETE FROM c_report;
 DELETE FROM c_window_table;
@@ -15,8 +14,6 @@ DELETE FROM c_process;
 DELETE FROM c_process_type;
 DELETE FROM c_user_rol;
 DELETE FROM c_rol;
-DELETE FROM c_user_preferences_theme;
-DELETE FROM c_theme;
 DELETE FROM c_user_preferences;
 DELETE FROM c_user_recovery;
 DELETE FROM c_user;
@@ -361,11 +358,6 @@ INSERT INTO c_user (c_user_id, email, password, is_protected, is_active, fk_c_pe
 INSERT INTO c_user_preferences (c_user_preferences_id, fk_c_user_id) VALUES (1, 1);
 INSERT INTO c_user_preferences (c_user_preferences_id, fk_c_user_id) VALUES (2, 2);
 
-INSERT INTO c_theme (c_theme_id, name, description, css_path) VALUES (1, 'Tema Cañamito Bike', 'Tema génerico por defecto', '/css/es/canamito/app/css/BoostrapTheme.css');
-
-INSERT INTO c_user_preferences_theme (c_user_preferences_theme_id, fk_c_user_preferences_id, fk_c_theme_id) VALUES (1, 1, 1);
-INSERT INTO c_user_preferences_theme (c_user_preferences_theme_id, fk_c_user_preferences_id, fk_c_theme_id) VALUES (2, 2, 1);
-
 INSERT INTO c_rol (c_rol_id, name, description) VALUES (1, 'Administrador', 'Responsable de la gestión de la aplicación web Cañamito Bike');
 INSERT INTO c_rol (c_rol_id, name, description) VALUES (2, 'Presidente', 'Responsable de la gestión del club Cañamito Bike');
 INSERT INTO c_rol (c_rol_id, name, description) VALUES (3, 'Socio', 'Miembro del Club Cañamito Bike');
@@ -381,12 +373,12 @@ INSERT INTO c_process_type (c_process_type_id, type) VALUES (1, 'Proceso');
 INSERT INTO c_process_type (c_process_type_id, type) VALUES (2, 'Ventana');
 INSERT INTO c_process_type (c_process_type_id, type) VALUES (3, 'Informe');
 
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (1, 'Ofrece la página principal de Cañamito', 'es.canamito.app.model.process.HomePage', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (2, 'Formulario de inicio de sesión', 'es.canamito.app.model.process.Login', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (3, 'Forumlario de registro para usuarios', 'es.canamito.app.model.process.SigninAuthorizer', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (4, 'Proceso para la gestión de la base de datos', 'es.canamito.app.model.process.SystemAdministration', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (5, 'Genera un informe de las personas', 'es.canamito.app.model.process.ReportGenerator', 3);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso que utiliza una ventana para acceder a información relacionada con las provincias', 'es.canamito.app.model.process.WindowGenerator', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (1, 'Ofrece la página principal de Cañamito', 'es.canamito.app.controller.process.HomePage', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (2, 'Formulario de inicio de sesión', 'es.canamito.app.controller.process.Login', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (3, 'Forumlario de registro para usuarios', 'es.canamito.app.controller.process.SigninAuthorizer', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (4, 'Proceso para la gestión de la base de datos', 'es.canamito.app.controller.process.SystemAdministration', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (5, 'Genera un informe de las personas', 'es.canamito.app.controller.process.ReportGenerator', 3);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso que utiliza una ventana para acceder a información relacionada con las provincias', 'es.canamito.app.controller.process.WindowGenerator', 2);
 
 -- Grupos de menú
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (1, 'Acciones', 'Grupo para los procesos', null, null);
@@ -394,18 +386,16 @@ INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_proce
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (3, 'Informes', 'Grupo para los informes', null, null);
 
 -- Entradas de menú
-INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (4, 'Inicio', 'Página principal de Cañamito Bike', 1, 1);
-INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (5, 'Inicio de sesión', 'Formulario de inicio de sesión', 1, 2);
-INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (6, 'Registro', 'Registrate como miembro de la escuela de ciclismo Cañamito Bike', 1, 3);
-INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (7, 'Gestión administrativa', 'Accede a la información almacenada en el sistema', 1, 4);
-INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (8, 'Informe de personas', 'Imprime un informe sobre las personas registradas en el sistema', 3, 5);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (4, 'Inicio', 'HomePage', 'Página principal de Cañamito Bike', 1, 1);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (5, 'Inicio de sesión', 'Login', 'Formulario de inicio de sesión', 1, 2);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (6, 'Registro', 'Signin', 'Registrate como miembro de la escuela de ciclismo Cañamito Bike', 1, 3);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (7, 'Gestión administrativa', 'Administration', 'Accede a la información almacenada en el sistema', 1, 4);
 
 -- Rol administrador
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (1, 1, 4);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (2, 1, 5);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (3, 1, 6);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (4, 1, 7);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (5, 1, 8);
 
 -- Rol usuario
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (6, 4, 4);
@@ -458,13 +448,6 @@ INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (4, 'Ventana', '/WEB-INF/j
 INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (5, 'Visualizacion del sistema', '/WEB-INF/jsp/es/canamito/app/view/process/SystemAdministration.jsp');
 INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (6, 'Inicio de sesión', '/WEB-INF/jsp/es/canamito/app/view/process/Login.jsp');
 INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (7, 'Formulario de registo para usuarios', '/WEB-INF/jsp/es/canamito/app/view/process/SigninAuthorizer.jsp');
-
-INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (1, 1, 1);
-INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (2, 1, 2);
-INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (3, 1, 3);
-INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (4, 1, 4);
-INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (5, 1, 5);
-INSERT INTO c_theme_view (c_theme_view_id, fk_c_theme_id, fk_c_view_id) VALUES (6, 1, 6);
 
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (1, TRUE, 1, 3);
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (2, TRUE, 2, 6);

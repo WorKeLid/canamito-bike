@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="HypersistenceOptimizer"
+		transaction-type="RESOURCE_LOCAL">
+
+		<description>
+            Hypersistence Optimizer is a dynamic analyzing tool that can scan
+            your JPA and Hibernate application and provide you tips about the
+            changes you need to make to entity mappings, configurations, queries,
+            and Persistence Context actions to speed up your data access layer.
+        </description>
+
+		<!-- <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>es.canamito.persistance.model.CAuthorization</class>
+		<class>es.canamito.persistance.model.CColumn</class>
+		<class>es.canamito.persistance.model.CGrade</class>
+		<class>es.canamito.persistance.model.CGroup</class>
+		<class>es.canamito.persistance.model.CGroupPerson</class>
+		<class>es.canamito.persistance.model.CLetter</class>
+		<class>es.canamito.persistance.model.CLocality</class>
+		<class>es.canamito.persistance.model.CMenu</class>
+		<class>es.canamito.persistance.model.COrganization</class>
+		<class>es.canamito.persistance.model.CPerson</class>
+		<class>es.canamito.persistance.model.CPersonAuthorization</class>
+		<class>es.canamito.persistance.model.CPersonOrganization</class>
+		<class>es.canamito.persistance.model.CProcess</class>
+		<class>es.canamito.persistance.model.CProcessType</class>
+		<class>es.canamito.persistance.model.CProcessView</class>
+		<class>es.canamito.persistance.model.CProvince</class>
+		<class>es.canamito.persistance.model.CReport</class>
+		<class>es.canamito.persistance.model.CRol</class>
+		<class>es.canamito.persistance.model.CRolMenu</class>
+		<class>es.canamito.persistance.model.CTable</class>
+		<class>es.canamito.persistance.model.CUser</class>
+		<class>es.canamito.persistance.model.CUserPreference</class>
+		<class>es.canamito.persistance.model.CUserRecovery</class>
+		<class>es.canamito.persistance.model.CUserRol</class>
+		<class>es.canamito.persistance.model.CView</class>
+		<class>es.canamito.persistance.model.CWindow</class>
+		<class>es.canamito.persistance.model.CWindowTable</class>
+
+		<properties>
+			<property name="hibernate.transaction.jta.platform"
+				value="SunOne" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:postgresql://localhost:5432/canamito" />
+			<property name="javax.persistence.jdbc.user"
+				value="canamito" />
+			<property name="javax.persistence.jdbc.password"
+				value="canamito" />
+			<property name="javax.persistence.jdbc.driver"
+				value="org.postgresql.Driver" />
+			<property name="eclipselink.logging.level" value="OFF" />
+			<!-- OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL -->
+		</properties>
+	</persistence-unit>
+</persistence>

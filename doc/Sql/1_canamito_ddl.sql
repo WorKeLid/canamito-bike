@@ -125,23 +125,6 @@ CREATE TABLE c_user_preferences (
   fk_c_user_id INTEGER NOT NULL UNIQUE REFERENCES c_user (c_user_id)
 );
 
-CREATE TABLE c_theme (
-  c_theme_id SERIAL PRIMARY KEY,
-
-  name VARCHAR(64) NOT NULL UNIQUE,
-  description VARCHAR(256) NOT NULL,
-  css_path VARCHAR(256) NOT NULL UNIQUE
-);
-
-CREATE TABLE c_user_preferences_theme (
-  c_user_preferences_theme_id SERIAL PRIMARY KEY,
-
-  fk_c_user_preferences_id INTEGER NOT NULL REFERENCES c_user_preferences(c_user_preferences_id),
-  fk_c_theme_id INTEGER NOT NULL REFERENCES c_theme (c_theme_id),
-
-  UNIQUE (fk_c_user_preferences_id, fk_c_theme_id)
-);
-
 CREATE TABLE c_rol (
   c_rol_id SERIAL PRIMARY KEY,
 
@@ -177,6 +160,7 @@ CREATE TABLE c_menu (
   c_menu_id SERIAL PRIMARY KEY,
 
   name VARCHAR(64),
+  path VARCHAR(64),
   description VARCHAR(64),
 
   fk_c_menu_group_id INTEGER REFERENCES c_menu (c_menu_id) ON DELETE SET NULL,
@@ -239,15 +223,6 @@ CREATE TABLE c_view (
 
   name VARCHAR(64) NOT NULL UNIQUE,
   jsp_path VARCHAR(256) NOT NULL UNIQUE
-);
-
-CREATE TABLE c_theme_view (
-  c_theme_view_id SERIAL PRIMARY KEY,
-
-  fk_c_theme_id INTEGER NOT NULL REFERENCES c_theme (c_theme_id),
-  fk_c_view_id INTEGER NOT NULL REFERENCES c_view (c_view_id) ON DELETE CASCADE,
-
-  UNIQUE (fk_c_theme_id, fk_c_view_id)
 );
 
 CREATE TABLE c_process_view (
