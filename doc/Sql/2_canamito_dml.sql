@@ -362,6 +362,8 @@ INSERT INTO c_rol (c_rol_id, name, description) VALUES (1, 'Administrador', 'Res
 INSERT INTO c_rol (c_rol_id, name, description) VALUES (2, 'Presidente', 'Responsable de la gestión del club Cañamito Bike');
 INSERT INTO c_rol (c_rol_id, name, description) VALUES (3, 'Socio', 'Miembro del Club Cañamito Bike');
 INSERT INTO c_rol (c_rol_id, name, description) VALUES (4, 'Usuario', 'Consumidor de la aplicación web Cañamito Bike');
+INSERT INTO c_rol (c_rol_id, name, description) VALUES (5, 'Anónimo', 'Usuario sin registro');
+
 
 INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (1, 1, 1);
 INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (2, 1, 2);
@@ -378,7 +380,7 @@ INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_typ
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (3, 'Forumlario de registro para usuarios', 'es.canamito.app.controller.process.SigninAuthorizer', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (4, 'Proceso para la gestión de la base de datos', 'es.canamito.app.controller.process.SystemAdministration', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (5, 'Genera un informe de las personas', 'es.canamito.app.controller.process.ReportGenerator', 3);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso que utiliza una ventana para acceder a información relacionada con las provincias', 'es.canamito.app.controller.process.WindowGenerator', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso para dibujar ventanas a las entidades solicitadas', 'es.canamito.app.controller.process.WindowGenerator', 2);
 
 -- Grupos de menú
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (1, 'Acciones', 'Grupo para los procesos', null, null);
@@ -390,6 +392,8 @@ INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (5, 'Inicio de sesión', 'Login', 'Formulario de inicio de sesión', 1, 2);
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (6, 'Registro', 'Signin', 'Registrate como miembro de la escuela de ciclismo Cañamito Bike', 1, 3);
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (7, 'Gestión administrativa', 'Administration', 'Accede a la información almacenada en el sistema', 1, 4);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (8, 'Grupos', 'Groups', 'Accede a los grupos de la escuela', 2, 6);
+
 
 -- Rol administrador
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (1, 1, 4);
@@ -401,6 +405,16 @@ INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (4, 1, 
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (6, 4, 4);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (7, 4, 5);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (8, 4, 6);
+
+-- Rol Anónimo
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (9, 5, 4);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (10, 5, 5);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (11, 5, 6);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (12, 5, 8);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (13, 5, 1);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (14, 5, 2);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (15, 5, 3);
+
 
 INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (1, 'c_province', 'Provincias', 'Provincias de España');
 INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (2, 'c_locality', 'Localidades', 'Localidades de España');

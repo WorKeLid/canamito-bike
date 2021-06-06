@@ -1,6 +1,7 @@
 package es.canamito.app.controller;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,11 +11,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import es.canamito.persistance.controller.CBDalUtils;
+import es.canamito.persistance.model.CMenu;
 import es.canamito.persistance.model.CUser;
 
 /**
@@ -22,6 +25,7 @@ import es.canamito.persistance.model.CUser;
  * 
  * @author wkl
  * @version 1.210522 - Documentación e implementación inicial del filtro
+ * @version 1.210603 - Implementación del método grantAccess
  */
 @WebFilter("/*")
 public class CBFlowFilter implements Filter {
@@ -32,6 +36,10 @@ public class CBFlowFilter implements Filter {
 		// Se invoca una sola vez al levantar Tomcat
 	}
 
+	public void destroy() {
+		// Llamado cada vez que pasa un tiempo y todos los doFilter han terminado
+	}
+
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
@@ -39,7 +47,8 @@ public class CBFlowFilter implements Filter {
 		String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
 		if (path.startsWith("/app/")) {
-			log.debug("doFilter to " + path);
+			log.info("doFilter to " + path);
+
 			if (grantAccess(httpRequest)) {
 				request.getRequestDispatcher(path).forward(request, response);
 			} else {
@@ -49,15 +58,15 @@ public class CBFlowFilter implements Filter {
 		} else if (path.startsWith("/resources/")) {
 			log.trace("doChain to " + path);
 			chain.doFilter(request, response);
+		} else if (path.startsWith("/")) {
+			log.info("redirecting to " + httpRequest.getContextPath() + "/app/HomePage");
+			HttpServletResponse httpResponse = (HttpServletResponse) response;
+			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/HomePage");
 		} else {
-			log.debug("unauthorized access to " + path);
+			log.info("unauthorized access to " + path);
 			request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp").forward(request,
 					response);
 		}
-	}
-
-	public void destroy() {
-		// Llamado cada vez que pasa un tiempo y todos los doFilter han terminado
 	}
 
 	/**
@@ -67,27 +76,30 @@ public class CBFlowFilter implements Filter {
 	 * @return true si el usuario tiene acceso al recurso, false si no
 	 */
 	private boolean grantAccess(HttpServletRequest httpRequest) {
+		boolean res = false;
 
-		HttpSession httpSession = httpRequest.getSession();
+		CUser cUser = CBDalUtils.getUserInSession(httpRequest);
+		final String goingTo = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length())
+				.replace("/app/", "");
 
-		Object userObject = httpSession.getAttribute("CUser");
+		Set<CMenu> userMenus = CBDalUtils.getUserMenus(cUser);
 
-		if (userObject instanceof CUser) {
-			CUser cUser = (CUser) userObject;
+		res = userMenus.stream().filter(m -> m.getPath() != null).anyMatch(m -> m.getPath().equals(goingTo)) ? true
+				: false;
 
-			log.debug("session email: " + cUser.getEmail());
-
+		if (cUser != null) {
+			if (res) {
+				log.trace("access granted for " + cUser.getEmail() + " to " + goingTo);
+			} else {
+				log.info("access rejected for " + cUser.getEmail() + " to " + goingTo);
+			}
 		} else {
-
-			log.debug("session anonymous");
+			if (res) {
+				log.trace("access granted for anonymous to " + goingTo);
+			} else {
+				log.trace("access rejected for anonymous to " + goingTo);
+			}
 		}
-
-		/*
-		 * 2. Evaluar si ese usuario tiene acceso al recurso que está solicitando 3.
-		 * Permitir el acceso (chain.doFilter ...) o redirigir a página de acceso no
-		 * autorizado
-		 */
-		// TODO: Implementación
-		return true;
+		return res;
 	}
 }

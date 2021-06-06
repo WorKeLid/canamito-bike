@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "canamito.c_menu")
+@Table(name = "c_menu")
 @NamedQuery(name = "CMenu.findAll", query = "SELECT c FROM CMenu c")
 public class CMenu implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -150,5 +150,4 @@ public class CMenu implements Serializable {
 
 		return CRolMenus;
 	}
-
 }

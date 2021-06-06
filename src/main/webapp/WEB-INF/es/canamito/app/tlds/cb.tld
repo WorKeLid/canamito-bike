@@ -5,7 +5,14 @@
 	<shot-name>CBTag</shot-name>
 
 	<tag>
-		<name>CBTHelloWorld</name>
-		<tag-class>es.canamito.app.controller.tags.CBTHelloWorld</tag-class>
+		<name>CBTDrawMenuItems</name>
+		<tag-class>es.canamito.app.controller.tags.CBTDrawMenuItems</tag-class>
 	</tag>
+
+	<tag>
+		<name>CBTConsumeCBMessage</name>
+		<tag-class>es.canamito.app.controller.tags.CBTConsumeCBMessage
+		</tag-class>
+	</tag>
+
 </taglib>

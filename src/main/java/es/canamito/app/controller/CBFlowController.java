@@ -26,6 +26,7 @@ import es.canamito.persistance.model.CMenu;
  * @author wkl
  * @version 1.210522 - Documentación e implementación inicial del controlador
  *          principal
+ * @version 1.210603 - Implementación del método getProcessFromMenu
  */
 @WebServlet("/app/*")
 public class CBFlowController extends HttpServlet {
@@ -35,23 +36,28 @@ public class CBFlowController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		log.debug("doGet to " + request.getRequestURI().substring(request.getContextPath().length()));
+		log.info("doGet to " + request.getRequestURI().substring(request.getContextPath().length()));
 		try {
 			String goingTo = request.getRequestURI().substring(request.getContextPath().length());
 			goingTo = goingTo.replace("/app/", "");
 
-			String process = getProcessFromMenu(goingTo);
+			String process = getProcessFromMenu(goingTo, request, response);
 
-			Class<?> c = Class.forName(process);
+			if (process != null) {
+				Class<?> c = Class.forName(process);
 
-			CBProcess p = (CBProcess) c.getDeclaredConstructor().newInstance();
+				CBProcess p = (CBProcess) c.getDeclaredConstructor().newInstance();
 
-			p.setServletContext(this.getServletContext());
-			p.setRequest(request);
-			p.setResponse(response);
+				p.setServletContext(this.getServletContext());
+				p.setRequest(request);
+				p.setResponse(response);
 
-			p.execute();
-
+				p.execute();
+			} else {
+				log.info("process " + goingTo + " does not exist");
+				request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp")
+						.forward(request, response);
+			}
 		} catch (Exception e) {
 			log.error(e.getClass() + ": " + e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp").forward(request,
@@ -63,7 +69,6 @@ public class CBFlowController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO: Implementar lógica sobre información recibida
 		log.debug("doPost to " + request.getRequestURI().substring(request.getContextPath().length()));
 		doGet(request, response);
 	}
@@ -74,7 +79,7 @@ public class CBFlowController extends HttpServlet {
 	 * @param goingTo Nombre del proceso
 	 * @return Nombre del proceso a instanciar o null si no existe
 	 */
-	private String getProcessFromMenu(String goingTo) {
+	private String getProcessFromMenu(String goingTo, HttpServletRequest request, HttpServletResponse response) {
 		String res = null;
 		try {
 			CBDal cbd = new CBDal();
@@ -91,12 +96,10 @@ public class CBFlowController extends HttpServlet {
 
 			res = lMenus.stream().filter(m -> m.getPath().equals(goingTo)).findAny().orElse(null).getCProcess()
 					.getProcessPath();
-		} catch (Exception e) {
-			log.error("getProcessFromMenu: " + e.getClass() + ": " + e.getMessage());
-			res = "es.canamito.app.controller.process." + goingTo;
-		}
 
-		log.info("getProcessFromMenu: calling process " + res);
+		} catch (Exception e) {
+			log.debug("getProcessFromMenu: " + e.getClass() + ": " + e.getMessage());
+		}
 		return res;
 	}
 }

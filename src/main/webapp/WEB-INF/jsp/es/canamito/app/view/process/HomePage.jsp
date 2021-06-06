@@ -6,9 +6,6 @@ request.setCharacterEncoding("utf-8");
 
 <jsp:include page="/WEB-INF/jsp/es/canamito/app/view/Header.jsp">
 	<jsp:param value="Página principal" name="title" />
-	<jsp:param
-		value="/CanamitoBike/resources/css/es/canamito/app/css/Boostrap5/bootstrap.min.css"
-		name="css" />
 </jsp:include>
 
 <div>Bienvenido a la página principal de CañamitoBike</div>
@@ -31,8 +28,4 @@ request.setCharacterEncoding("utf-8");
 	</tr>
 </table>
 
-<jsp:include page="/WEB-INF/jsp/es/canamito/app/view/Footer.jsp">
-	<jsp:param
-		value="/CanamitoBike/resources/css/es/canamito/app/css/Boostrap5/bootstrap.bundle.min.js"
-		name="js" />
-</jsp:include>
+<jsp:include page="/WEB-INF/jsp/es/canamito/app/view/Footer.jsp" />

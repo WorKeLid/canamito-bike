@@ -4,5 +4,4 @@
 final Logger lg = LogManager.getLogger();
 lg.debug("Redirecting to " + "/app/HomePage");
 response.sendRedirect("/app/HomePage");
-response.sendRedirect(request.getContextPath() + "/app/HomePage");
 %>
