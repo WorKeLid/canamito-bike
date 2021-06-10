@@ -10,7 +10,7 @@ import java.util.List;
  * @version 1.210506 - Implementación inicial
  * @param <T> El tipo de objecto que el árbol va a contener
  */
-public class CBTree<T> {
+public class CBTree<T extends Comparable<T>> implements Comparable<CBTree<T>> {
 
 	private T node;
 	private CBTree<T> parent;
@@ -37,5 +37,14 @@ public class CBTree<T> {
 
 	public List<CBTree<T>> getChildren() {
 		return this.children;
+	}
+
+	/**
+	 * El orden natural de los nodos dependerá del tipo que sea (ej. CMenu se ordena
+	 * por alfabéticamente por el nombre)
+	 */
+	@Override
+	public int compareTo(CBTree<T> node) {
+		return this.getNode().compareTo(node.getNode());
 	}
 }

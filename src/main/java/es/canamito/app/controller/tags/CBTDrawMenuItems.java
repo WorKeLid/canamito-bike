@@ -2,6 +2,7 @@ package es.canamito.app.controller.tags;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,15 +34,15 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 
 			List<CBTree<CMenu>> tree = getCBTree(allMenus);
 
-			for (CBTree<CMenu> root : tree) {
-				log.debug(root.getNode().getName());
-				for (CBTree<CMenu> children : root.getChildren()) {
-					log.debug("-" + children.getNode().getName());
-					for (CBTree<CMenu> children2 : children.getChildren()) {
-						log.debug("--" + children2.getNode().getName());
-					}
-				}
-			}
+//			for (CBTree<CMenu> root : tree) {
+//				log.trace(root.getNode().getName());
+//				for (CBTree<CMenu> children : root.getChildren()) {
+//					log.trace("-" + children.getNode().getName());
+//					for (CBTree<CMenu> children2 : children.getChildren()) {
+//						log.trace("--" + children2.getNode().getName());
+//					}
+//				}
+//			}
 
 			drawTree(tree);
 
@@ -87,7 +88,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 				res.add(root);
 			}
 		}
-
+		Collections.sort(res);
 		return res;
 	}
 
@@ -116,10 +117,10 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 		JspWriter out = pageContext.getOut();
 		for (CBTree<CMenu> root : treeList) {
 			if (root.getChildren().isEmpty()) {
-				log.debug("root " + root.getNode().getName() + " empty");
+				log.info("root " + root.getNode().getName() + " is empty");
 			} else {
 				out.println(
-						"<li class=\"nav-item dropdown\"><a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">"
+						"<li class=\"nav-item dropdown\"><a class=\"nav-link dropdown-toggle\" href=\"\" id=\"navbarDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">"
 								+ root.getNode().getName()
 								+ "</a><ul class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">");
 				drawRootChildren(out, root);
@@ -132,11 +133,13 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 		for (CBTree<CMenu> m : root.getChildren()) {
 
 			if (m.getChildren().isEmpty()) {
-				out.println("<li class=\"nav-item\"><a class=\"dropdown-item\" href=\"#\">" + m.getNode().getName()
-						+ "</a></li>");
+				String url = ((HttpServletRequest) pageContext.getRequest()).getContextPath() + "/app/"
+						+ m.getNode().getPath();
+				out.println("<li class=\"nav-item\"><a class=\"dropdown-item\" href=\"" + url + "\">"
+						+ m.getNode().getName() + "</a></li>");
 			} else {
 				out.println(
-						"<li class=\"dropdown-submenu\"><a class=\"dropdown-item dropdown-toggle\" href=\"#\" id=\"navbarDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">"
+						"<li class=\"dropdown-submenu\"><a class=\"dropdown-item dropdown-toggle\" href=\"\" id=\"navbarDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">"
 								+ m.getNode().getName()
 								+ "</a><ul class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">");
 				drawRootChildren(out, m);

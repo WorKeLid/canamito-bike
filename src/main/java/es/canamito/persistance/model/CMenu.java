@@ -17,11 +17,13 @@ import javax.persistence.Table;
 /**
  * The persistent class for the c_menu database table.
  * 
+ * @version 1.210607 - Implementado compareTo para ordenar los enlaces de la
+ *          cabecera
  */
 @Entity
 @Table(name = "c_menu")
 @NamedQuery(name = "CMenu.findAll", query = "SELECT c FROM CMenu c")
-public class CMenu implements Serializable {
+public class CMenu implements Serializable, Comparable<CMenu> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -149,5 +151,13 @@ public class CMenu implements Serializable {
 		CRolMenus.setCMenu(null);
 
 		return CRolMenus;
+	}
+
+	/**
+	 * Los menús se ordenan por orden alfabético
+	 */
+	@Override
+	public int compareTo(CMenu menu) {
+		return this.getName().compareTo(menu.getName());
 	}
 }

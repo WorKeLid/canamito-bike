@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "canamito.c_process")
+@Table(name = "c_process")
 @NamedQuery(name = "CProcess.findAll", query = "SELECT c FROM CProcess c")
 public class CProcess implements Serializable {
 	private static final long serialVersionUID = 1L;

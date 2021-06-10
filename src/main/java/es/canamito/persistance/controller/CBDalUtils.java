@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.canamito.persistance.model.CMenu;
+import es.canamito.persistance.model.CProcess;
 import es.canamito.persistance.model.CRol;
 import es.canamito.persistance.model.CRolMenu;
 import es.canamito.persistance.model.CUser;
@@ -30,6 +32,37 @@ import es.canamito.persistance.model.CUserRol;
 public class CBDalUtils {
 
 	private static final Logger log = LogManager.getLogger();
+
+	/**
+	 * Busca en la base de datos si el proceso solicitado existe
+	 * 
+	 * @param goingTo Nombre del proceso
+	 * @return Nombre del proceso a instanciar o null si no existe
+	 */
+	public static CProcess getProcessFromMenu(HttpServletRequest request) {
+		CProcess res = null;
+
+		String goingTo = request.getRequestURI().substring(request.getContextPath().length()).replace("/app/", "");
+		try {
+			CBDal cbd = new CBDal();
+
+			CriteriaBuilder cBuilder = cbd.getEntityManager().getCriteriaBuilder();
+			CriteriaQuery<CMenu> cQuery = cBuilder.createQuery(CMenu.class);
+			Root<CMenu> root = cQuery.from(CMenu.class);
+
+			cQuery.select(root).where(cBuilder.isNotNull(root.get("CProcess")));
+
+			TypedQuery<CMenu> tQuery = cbd.getEntityManager().createQuery(cQuery);
+
+			List<CMenu> lMenus = tQuery.getResultList();
+
+			res = lMenus.stream().filter(m -> m.getPath().equals(goingTo)).findAny().orElse(null).getCProcess();
+
+		} catch (Exception e) {
+			log.debug("getProcessFromMenu: " + e.getClass() + ": " + e.getMessage());
+		}
+		return res;
+	}
 
 	/**
 	 * @param request
@@ -92,10 +125,10 @@ public class CBDalUtils {
 			}
 		}
 
-		log.trace("Lista de menus accesibles");
-		for (CMenu m : res) {
-			log.trace("m: " + m.getName());
-		}
+//		log.trace("Lista de menus accesibles");
+//		for (CMenu m : res) {
+//			log.trace("m: " + m.getName());
+//		}
 
 		return res;
 	}

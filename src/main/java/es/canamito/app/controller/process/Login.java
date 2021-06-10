@@ -26,7 +26,7 @@ public class Login extends CBProcessImpl implements CBProcess {
 		super();
 	}
 
-	public void execute() {
+	public void execute() throws Exception {
 		log.debug("executing " + this.getClass().getCanonicalName());
 
 		if (isPost()) {
@@ -48,18 +48,10 @@ public class Login extends CBProcessImpl implements CBProcess {
 				CBMessage msg = new CBMessage("ERROR", "Credenciales no válidas",
 						"El correo electrónico no existe o la contraseña es incorrecta");
 				getRequest().setAttribute("msg", msg);
-
-				this.setViewPath(getDefaultView(this.getClass().getName()));
 			}
-		} else {
-			this.setViewPath(getDefaultView(this.getClass().getName()));
 		}
-		try {
-			log.trace("viewing with " + getViewPath());
-			getRequest().getRequestDispatcher(getViewPath()).forward(getRequest(), getResponse());
-		} catch (Exception e) {
-			log.error(e.getClass() + ": " + e.getMessage());
-		}
+		log.trace("viewing with " + getProcessDefaultView());
+		getRequest().getRequestDispatcher(getProcessDefaultView()).forward(getRequest(), getResponse());
 	}
 
 	/**

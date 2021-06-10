@@ -56,14 +56,17 @@ public class CBFlowFilter implements Filter {
 						.forward(request, response);
 			}
 		} else if (path.startsWith("/resources/")) {
-			log.trace("doChain to " + path);
+			// log.trace("doChain to " + path);
+
 			chain.doFilter(request, response);
 		} else if (path.startsWith("/")) {
-			log.info("redirecting to " + httpRequest.getContextPath() + "/app/HomePage");
+			log.info("redirecting to " + httpRequest.getContextPath() + "/app/pagina-principal");
+
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
-			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/HomePage");
+			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/pagina-principal");
 		} else {
 			log.info("unauthorized access to " + path);
+
 			request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp").forward(request,
 					response);
 		}
@@ -86,20 +89,6 @@ public class CBFlowFilter implements Filter {
 
 		res = userMenus.stream().filter(m -> m.getPath() != null).anyMatch(m -> m.getPath().equals(goingTo)) ? true
 				: false;
-
-		if (cUser != null) {
-			if (res) {
-				log.trace("access granted for " + cUser.getEmail() + " to " + goingTo);
-			} else {
-				log.info("access rejected for " + cUser.getEmail() + " to " + goingTo);
-			}
-		} else {
-			if (res) {
-				log.trace("access granted for anonymous to " + goingTo);
-			} else {
-				log.trace("access rejected for anonymous to " + goingTo);
-			}
-		}
 		return res;
 	}
 }

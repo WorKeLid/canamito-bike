@@ -4,6 +4,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.canamito.persistance.model.CProcess;
+
 /**
  * <div> Todo proceso, ventana o informe debe implementar esta interfaz para
  * ofrecer al controlador principal una respuesta a la peticion recibida<div>
@@ -12,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.210515 - Documentacion e implementación de la interfaz
  */
 public interface CBProcess {
-
 	/**
-	 * 
 	 * @return Devuelve el contexto en el que se ha ejecutado el controlador
 	 *         principal
 	 */
@@ -31,12 +31,16 @@ public interface CBProcess {
 	HttpServletResponse getResponse();
 
 	/**
-	 * @return La ruta a la vista que ofrecerá la respuesta generada por el proceso
+	 * @return Una referencia al proceso definido en la base de datos
 	 */
-	String getViewPath();
+	CProcess getCProcess();
 
 	/**
-	 * 
+	 * @return Devuelve la vista por defeco del proceso
+	 */
+	String getProcessDefaultView();
+
+	/**
 	 * @param servletContext Asigna el contexto en el que se está ejecutando el
 	 *                       controlador principal
 	 */
@@ -53,9 +57,13 @@ public interface CBProcess {
 	void setResponse(HttpServletResponse response);
 
 	/**
+	 * @param cProcess Asigna un proceso de la base de datos
+	 */
+	void setCProcess(CProcess cProcess);
+
+	/**
 	 * <div>Función que evalua la peticion y respuestas recibidas y genera una
 	 * vista</div>
-	 * 
 	 */
-	void execute();
+	void execute() throws Exception;
 }

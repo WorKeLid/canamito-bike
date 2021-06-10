@@ -1,38 +1,48 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the c_window_table database table.
  * 
+ * @author wkl
+ * @version 1.210609 - Implementación inicial de la interfaz Comparable
  */
 @Entity
-@Table(name="c_window_table")
-@NamedQuery(name="CWindowTable.findAll", query="SELECT c FROM CWindowTable c")
-public class CWindowTable implements Serializable {
+@Table(name = "c_window_table")
+@NamedQuery(name = "CWindowTable.findAll", query = "SELECT c FROM CWindowTable c")
+public class CWindowTable implements Serializable, Comparable<CWindowTable> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="c_window_table_id", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "c_window_table_id", unique = true, nullable = false)
 	private Integer cWindowTableId;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer level;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer secuence;
 
-	//bi-directional many-to-one association to CTable
+	// bi-directional many-to-one association to CTable
 	@ManyToOne
-	@JoinColumn(name="fk_c_table_id", nullable=false)
+	@JoinColumn(name = "fk_c_table_id", nullable = false)
 	private CTable CTable;
 
-	//bi-directional many-to-one association to CWindow
+	// bi-directional many-to-one association to CWindow
 	@ManyToOne
-	@JoinColumn(name="fk_c_window_id", nullable=false)
+	@JoinColumn(name = "fk_c_window_id", nullable = false)
 	private CWindow CWindow;
 
 	public CWindowTable() {
@@ -76,6 +86,22 @@ public class CWindowTable implements Serializable {
 
 	public void setCWindow(CWindow CWindow) {
 		this.CWindow = CWindow;
+	}
+
+	/**
+	 * Las ventanas se ordenan por nivel y secuencia
+	 * 
+	 * @return un número negativo, cero o un número positivo si esta ventana es
+	 *         menor, igual o mayor que la especificada
+	 */
+	public int compareTo(CWindowTable cWindowTable) {
+		int res;
+		if (this.getLevel().compareTo(cWindowTable.getLevel()) == 0) {
+			res = this.getSecuence().compareTo(cWindowTable.getSecuence());
+		} else {
+			res = this.getLevel().compareTo(cWindowTable.getLevel());
+		}
+		return res;
 	}
 
 }

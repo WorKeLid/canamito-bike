@@ -15,18 +15,12 @@ public class HomePage extends CBProcessImpl implements CBProcess {
 		super();
 	}
 
-	public void execute() {
+	public void execute() throws Exception {
 		log.debug("executing " + this.getClass().getCanonicalName());
 
 		// TODO: Implementación
 
-		this.setViewPath("/WEB-INF/jsp/es/canamito/app/view/process/HomePage.jsp");
-		try {
-			log.debug("viewing with " + getViewPath());
-			getRequest().getRequestDispatcher(getViewPath()).forward(getRequest(), getResponse());
-		} catch (Exception e) {
-			log.error(e.getClass() + ": " + e.getMessage());
-		}
-
+		log.debug("viewing with " + getProcessDefaultView());
+		getRequest().getRequestDispatcher(getProcessDefaultView()).forward(getRequest(), getResponse());
 	}
 }

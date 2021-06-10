@@ -29,10 +29,15 @@ public abstract class CBProcessImpl implements CBProcess {
 
 	protected static final Logger log = LogManager.getLogger();
 
-	private ServletContext servletContext;
-	private HttpServletRequest httpServletRequest;
-	private HttpServletResponse httpServletResponse;
-	private String viewPath;
+	protected ServletContext servletContext;
+	protected HttpServletRequest httpServletRequest;
+	protected HttpServletResponse httpServletResponse;
+	protected CProcess cProcess;
+	protected String processDefaultView;
+
+	public CBProcessImpl() {
+
+	}
 
 	public ServletContext getServletContext() {
 		return this.servletContext;
@@ -46,8 +51,16 @@ public abstract class CBProcessImpl implements CBProcess {
 		return this.httpServletResponse;
 	}
 
-	public String getViewPath() {
-		return this.viewPath;
+	public CProcess getCProcess() {
+		return this.cProcess;
+	}
+
+	/**
+	 * @return Vista por defecto de este proceso o acceso no autorizado si este
+	 *         proceso no tiene vista por defecto
+	 */
+	public String getProcessDefaultView() {
+		return this.processDefaultView;
 	}
 
 	public void setServletContext(ServletContext servletContext) {
@@ -62,24 +75,12 @@ public abstract class CBProcessImpl implements CBProcess {
 		this.httpServletResponse = response;
 	}
 
-	public void setViewPath(String viewPath) {
-		this.viewPath = viewPath;
-	}
-
 	/**
-	 * @return true si el proceso ha recibido una petición POST, false si no
+	 * Despues de guardar el proceso, buscamos la vista por defecto del proceso
 	 */
-	public boolean isPost() {
-		return "POST".equalsIgnoreCase(getRequest().getMethod()) == true ? true : false;
-	}
+	public void setCProcess(CProcess cProcess) {
+		this.cProcess = cProcess;
 
-	/**
-	 * Busca la vista por defecto del proceso dado
-	 * 
-	 * @param fullClassName Nombre completo de la clase que implementa al proceso
-	 * @return La ruta de la vista o la vista Unauthorized si no la encuentra
-	 */
-	public String getDefaultView(String fullProcessName) {
 		String res = "/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp";
 		try {
 			CBDal cbd = new CBDal();
@@ -88,7 +89,7 @@ public abstract class CBProcessImpl implements CBProcess {
 			CriteriaQuery<CProcess> cQuery = cBuilder.createQuery(CProcess.class);
 			Root<CProcess> root = cQuery.from(CProcess.class);
 
-			cQuery.select(root).where(cBuilder.equal(root.get("processPath"), fullProcessName));
+			cQuery.select(root).where(cBuilder.equal(root.get("processPath"), getCProcess().getProcessPath()));
 
 			TypedQuery<CProcess> tQuery = cbd.getEntityManager().createQuery(cQuery);
 
@@ -118,13 +119,20 @@ public abstract class CBProcessImpl implements CBProcess {
 		} catch (Exception e) {
 			log.error("getDefaultView: " + e.getClass() + ": " + e.getMessage());
 		}
-		log.info("default view for " + fullProcessName + ": " + res);
-		return res;
+		log.trace("default view for " + getCProcess().getProcessPath() + ": " + res);
+		this.processDefaultView = res;
+	}
+
+	/**
+	 * @return true si el proceso ha recibido una petición POST, false si no
+	 */
+	public boolean isPost() {
+		return "POST".equalsIgnoreCase(getRequest().getMethod()) == true ? true : false;
 	}
 
 	/**
 	 * <div>Este método debe evaluar la petición y respuestas recibidas y generar
 	 * una respuesta</div>
 	 */
-	public abstract void execute();
+	public abstract void execute() throws Exception;
 }
