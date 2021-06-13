@@ -43,7 +43,6 @@
 		<class>es.canamito.persistance.model.CUserRol</class>
 		<class>es.canamito.persistance.model.CView</class>
 		<class>es.canamito.persistance.model.CWindow</class>
-		<class>es.canamito.persistance.model.CWindowTable</class>
 
 		<properties>
 			<property name="hibernate.transaction.jta.platform"

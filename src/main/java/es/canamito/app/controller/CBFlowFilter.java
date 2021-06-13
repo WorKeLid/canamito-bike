@@ -57,7 +57,6 @@ public class CBFlowFilter implements Filter {
 			}
 		} else if (path.startsWith("/resources/")) {
 			// log.trace("doChain to " + path);
-
 			chain.doFilter(request, response);
 		} else if (path.startsWith("/")) {
 			log.info("redirecting to " + httpRequest.getContextPath() + "/app/pagina-principal");
@@ -89,6 +88,11 @@ public class CBFlowFilter implements Filter {
 
 		res = userMenus.stream().filter(m -> m.getPath() != null).anyMatch(m -> m.getPath().equals(goingTo)) ? true
 				: false;
+		if (res) {
+			log.debug("access granted to " + cUser + " to " + goingTo);
+		} else {
+			log.debug("access denied to " + cUser + " to " + goingTo);
+		}
 		return res;
 	}
 }

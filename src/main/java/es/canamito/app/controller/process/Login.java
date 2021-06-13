@@ -37,7 +37,7 @@ public class Login extends CBProcessImpl implements CBProcess {
 			if (user != null) {
 				getRequest().getSession().setAttribute("user", user);
 				try {
-					getResponse().sendRedirect((getRequest().getContextPath() + "/app/HomePage"));
+					getResponse().sendRedirect((getRequest().getContextPath() + "/"));
 				} catch (IOException e) {
 					log.error(e.getClass() + ": " + e.getMessage());
 				}
@@ -50,7 +50,7 @@ public class Login extends CBProcessImpl implements CBProcess {
 				getRequest().setAttribute("msg", msg);
 			}
 		}
-		log.trace("viewing with " + getProcessDefaultView());
+		log.debug("viewing with " + getProcessDefaultView());
 		getRequest().getRequestDispatcher(getProcessDefaultView()).forward(getRequest(), getResponse());
 	}
 

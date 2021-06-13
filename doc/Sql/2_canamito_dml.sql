@@ -4,7 +4,6 @@ SET session_replication_role = 'replica';
 DELETE FROM c_process_view;
 DELETE FROM c_view;
 DELETE FROM c_report;
-DELETE FROM c_window_table;
 DELETE FROM c_window;
 DELETE FROM c_column;
 DELETE FROM c_table;
@@ -299,6 +298,7 @@ INSERT INTO c_locality (c_locality_id, postal_code, name, fk_c_province_id) VALU
 INSERT INTO c_locality (c_locality_id, postal_code, name, fk_c_province_id) VALUES(34270, '41318', 'Villaverde Del Rio', '41');
 INSERT INTO c_locality (c_locality_id, postal_code, name, fk_c_province_id) VALUES(34271, '41520', 'Viso Del Alcor, El', '41');
 
+-- Personas
 INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone_number, is_verified, is_active, fk_authorizer_id, fk_c_locality_id)
   VALUES (1, '29987891t', 'Miguel Ángel', 'Castañeda García', '1993-08-09', 'Germos tras, Nº 14', '645735089', true, true, null, 34234);
 INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone_number, is_verified, is_active, fk_authorizer_id, fk_c_locality_id)
@@ -308,11 +308,13 @@ INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone
 INSERT INTO c_person (c_person_id, dni, name, surname, born_date, address, phone_number, is_verified, is_active, fk_authorizer_id, fk_c_locality_id)
   VALUES (4, '87654321b', 'Hija', 'Hija', '2011-12-02', 'Germos tras, Nº 68', '943393123', true, false, 2, 34225);
 
+-- Autorizaciones
 INSERT INTO c_authorization (c_authorization_id, name, terms_description)
   VALUES (1, 'Inscripción', 'Autorizo a mi hijo/a a que pueda realizar las actividades del curso sobre ciclismo, pudiendo realizarlas tanto dentro como fuera del recinto escolar');
 INSERT INTO c_authorization (c_authorization_id, name, terms_description)
   VALUES (2, 'Difusión material gráfico', 'Autorizo al club deportivo Cañamito Bike a publicar en su página web cualquier tipo de material gráfico (fotos, videos...) en el que aparezca mi hijo/a o tutorado/a practicando las actividades propias del club');
 
+-- Autorizaciones de los hijos
 INSERT INTO c_person_authorization (c_person_authorization_id, authorization_date, is_accepted, fk_c_person_id, fk_c_authorization_id)
   VALUES (1, '2021-04-02', true, 3, 1);
 INSERT INTO c_person_authorization (c_person_authorization_id, authorization_date, is_accepted, fk_c_person_id, fk_c_authorization_id)
@@ -359,17 +361,15 @@ INSERT INTO c_user_preferences (c_user_preferences_id, fk_c_user_id) VALUES (1, 
 INSERT INTO c_user_preferences (c_user_preferences_id, fk_c_user_id) VALUES (2, 2);
 
 INSERT INTO c_rol (c_rol_id, name, description) VALUES (1, 'Administrador', 'Responsable de la gestión de la aplicación web Cañamito Bike');
-INSERT INTO c_rol (c_rol_id, name, description) VALUES (2, 'Presidente', 'Responsable de la gestión del club Cañamito Bike');
-INSERT INTO c_rol (c_rol_id, name, description) VALUES (3, 'Socio', 'Miembro del Club Cañamito Bike');
-INSERT INTO c_rol (c_rol_id, name, description) VALUES (4, 'Usuario', 'Consumidor de la aplicación web Cañamito Bike');
-INSERT INTO c_rol (c_rol_id, name, description) VALUES (5, 'Anónimo', 'Usuario sin registro');
+INSERT INTO c_rol (c_rol_id, name, description) VALUES (2, 'Usuario', 'Consumidor de la aplicación web Cañamito Bike');
+INSERT INTO c_rol (c_rol_id, name, description) VALUES (3, 'Anónimo', 'Usuario sin registro');
 
-
+-- workelid@gmail.com
 INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (1, 1, 1);
 INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (2, 1, 2);
-INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (3, 1, 3);
-INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (4, 1, 4);
-INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (5, 2, 4);
+
+-- workelid+padre@gmail.com
+INSERT INTO c_user_rol (c_user_rol_id, fk_c_user_id, fk_c_rol_id) VALUES (3, 2, 2);
 
 INSERT INTO c_process_type (c_process_type_id, type) VALUES (1, 'Proceso');
 INSERT INTO c_process_type (c_process_type_id, type) VALUES (2, 'Ventana');
@@ -377,87 +377,105 @@ INSERT INTO c_process_type (c_process_type_id, type) VALUES (3, 'Informe');
 
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (1, 'Ofrece la página principal de Cañamito', 'es.canamito.app.controller.process.HomePage', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (2, 'Formulario de inicio de sesión', 'es.canamito.app.controller.process.Login', 1);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (3, 'Forumlario de registro para usuarios', 'es.canamito.app.controller.process.SigninAuthorizer', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (3, 'Forumlario de registro para usuarios', 'es.canamito.app.controller.process.Signin', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (4, 'Proceso para la gestión de la base de datos', 'es.canamito.app.controller.process.SystemAdministration', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (5, 'Genera un informe de las personas', 'es.canamito.app.controller.process.ReportGenerator', 3);
-INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso que muestra las provincias y localidades', 'es.canamito.app.controller.process.window.Province', 2);
-
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (6, 'Proceso que muestra las provincias', 'es.canamito.app.controller.process.window.Province', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (7, 'Formulario de registo de autorizantes', 'es.canamito.app.controller.process.SigninAuthorizer', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (8, 'Preferencias del usuario', 'es.canamito.app.controller.process.Preferences', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (9, 'Cerrar sesión', 'es.canamito.app.controller.process.Logout', 1);
 -- Grupos de menú
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (1, 'Acciones', 'Grupo para los procesos', null, null);
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (2, 'Ventanas', 'Grupo para las ventanas', null, null);
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (3, 'Informes', 'Grupo para los informes', null, null);
 
--- Entradas de menú
+-- Entradas de menú: Acciones
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (4, 'Inicio', 'pagina-principal', 'Página principal de Cañamito Bike', 1, 1);
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (5, 'Inicio de sesión', 'inicio-sesion', 'Formulario de inicio de sesión', 1, 2);
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (6, 'Registro', 'registro', 'Registrate como miembro de la escuela de ciclismo Cañamito Bike', 1, 3);
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (7, 'Gestión administrativa', 'administracion', 'Accede a la información almacenada en el sistema', 1, 4);
-INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (8, 'Provincias', 'provincias', 'Accede a las provincias definidas', 2, 6);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (8, 'Preferencias', 'preferencias', 'Accede a tus preferencias', 1, 8);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (9, 'Registro de autorizante', 'registro-autorizante', 'Registrate como autorizante', 1, 7);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (10, 'Cerrar sesión', 'salir', 'Cierra la sesión', 1, 9);
 
+--Entradas de menú: Ventanas
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (11, 'Provincias', 'provincias', 'Accede a las provincias definidas', 2, 6);
+-- Entradas de menú: Informes
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (12, 'Informe de provincias', 'informe-provincias', 'Genera un informe sobre las provincias', 3, 5);
 
 -- Rol administrador
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (1, 1, 4);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (2, 1, 5);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (3, 1, 6);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (4, 1, 7);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (5, 1, 8);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (1, 1, 1);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (2, 1, 2);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (3, 1, 3);
+
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (4, 1, 4);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (5, 1, 5);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (6, 1, 6);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (7, 1, 7);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (8, 1, 8);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (9, 1, 9);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (10, 1, 10);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (11, 1, 11);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (12, 1, 12);
 
 -- Rol usuario
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (6, 4, 4);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (7, 4, 5);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (8, 4, 6);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (13, 2, 1);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (14, 2, 2);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (15, 2, 3);
+
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (16, 2, 4);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (17, 2, 8);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (18, 2, 9);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (19, 2, 10);
 
 -- Rol Anónimo
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (9, 5, 4);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (10, 5, 5);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (11, 5, 6);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (12, 5, 8);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (13, 5, 1);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (14, 5, 2);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (15, 5, 3);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (20, 3, 1);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (21, 3, 2);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (22, 3, 3);
+
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (23, 3, 4);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (24, 3, 5);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (25, 3, 6);
 
 
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (1, 'c_province', 'Provincias', 'Provincias de España');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (2, 'c_locality', 'Localidades', 'Localidades de España');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (3, 'c_person', 'Personas', 'Personas registradas en Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (4, 'c_autorization', 'Autorizaciones', 'Autorizaciones de Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (5, 'c_person_authorization', 'Autorizaciones de personas', 'Autorizaciones concedidas por las personas');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (6, 'c_grade', 'Grado', 'Nivel del grupo');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (7, 'c_letter', 'Letra', 'Letra asociada al grupo');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (8, 'c_group_person', 'Personas en grupos', 'Las personas y sus grupos');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (9, 'c_organization', 'Organización', 'Organizaciones de Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (10, 'c_person_organization', 'Personas en organizaciones', 'Las personas y sus organizaciones');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (11, 'c_user', 'Usuarios', 'Usuarios de Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (12, 'c_user_recovery', 'Recuperación de usuario', 'Sistema de Recuperación de usuarios');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (13, 'c_user_preferences', 'Preferencias de usuarios', 'Preferencias de los usuarios sobre la aplicación Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (14, 'c_theme', 'Temas', 'Temas de visualización de la aplicación Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (15, 'c_user_preferences_theme', 'Temas de los usuarios', 'Preferencias de los usuarios sobre los temas de la aplicación Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (16, 'c_rol', 'Roles', 'Roles que un usuario puede tener');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (17, 'c_rol_user', 'Roles de los usuarios', 'Las personas y sus roles');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (18, 'c_process_type', 'Tipo de proceso', 'Tipos de procesos existentes en Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (19, 'c_process', 'Procesos', 'Procesos disponibles en Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (21, 'c_menu', 'Menús', 'Entradas de menú disponibles para navegar la aplicación Cañamito Bike');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (22, 'c_rol_menu', 'Menús de los roles', 'Entradas de menú disponibles para los roles');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (23, 'c_table', 'Tablas', 'Tablas almacenadas en la base de datos');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (24, 'c_column', 'Columnas de tablas', 'Columnas de las tablas almacenadas en la base de datos');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (25, 'c_window', 'Ventana', 'Procesos que utilizan ventanas');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (26, 'c_window_table', 'Tablas de ventanas', 'Las ventanas están compuestas por tablas');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (27, 'c_report', 'Informes', 'Impresión de informes');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (28, 'c_view', 'Vistas', 'Representaciones gráficas usadas para visualizar procesos');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (29, 'c_theme_view', 'Vistas del tema', 'Vistas de los temas');
-INSERT INTO c_table (c_table_id, db_name, name, description) VALUES (30, 'c_process_view', 'Vistas de los procesos', 'Los procesos y sus representaciones gráficas');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (1, 'c_province', 'CProvince', 'Provincias', 'Provincias de España');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (2, 'c_locality', 'CLocality', 'Localidades', 'Localidades de España');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (3, 'c_person', 'CPerson', 'Personas', 'Personas registradas en Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (4, 'c_autorization', 'CAuthorization', 'Autorizaciones', 'Autorizaciones de Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (5, 'c_person_authorization', 'CPersonAuthorization', 'Autorizaciones de personas', 'Autorizaciones concedidas por las personas');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (6, 'c_grade', 'CGrade', 'Grado', 'Nivel del grupo');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (7, 'c_letter', 'CLetter', 'Letra', 'Letra asociada al grupo');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (8, 'c_group_person', 'CGroupPerson', 'Personas en grupos', 'Las personas y sus grupos');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (9, 'c_organization', 'COrganization', 'Organización', 'Organizaciones de Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (10, 'c_person_organization', 'CPersonOrganization', 'Personas en organizaciones', 'Las personas y sus organizaciones');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (11, 'c_user', 'CUser', 'Usuarios', 'Usuarios de Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (12, 'c_user_recovery', 'CUserRecovery', 'Recuperación de usuario', 'Sistema de Recuperación de usuarios');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (13, 'c_user_preferences', 'CUserPreferences', 'Preferencias de usuarios', 'Preferencias de los usuarios sobre la aplicación Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (14, 'c_rol', 'CRol', 'Roles', 'Roles que un usuario puede tener');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (15, 'c_rol_user', 'CRolUser', 'Roles de los usuarios', 'Las personas y sus roles');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (16, 'c_process_type', 'CProcessType', 'Tipo de proceso', 'Tipos de procesos existentes en Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (17, 'c_process', 'CProcess', 'Procesos', 'Procesos disponibles en Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (18, 'c_menu', 'CMenu', 'Menús', 'Entradas de menú disponibles para navegar la aplicación Cañamito Bike');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (19, 'c_rol_menu', 'CRolMenu', 'Menús de los roles', 'Entradas de menú disponibles para los roles');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (20, 'c_table', 'CTable', 'Tablas', 'Tablas almacenadas en la base de datos');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (21, 'c_column', 'CColumn', 'Columnas de tablas', 'Columnas de las tablas almacenadas en la base de datos');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (22, 'c_window', 'CWindow', 'Ventana', 'Procesos que utilizan ventanas');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (23, 'c_window_table', 'CWindowTable', 'Tablas de ventanas', 'Las ventanas están compuestas por tablas');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (24, 'c_report', 'CReport', 'Informes', 'Impresión de informes');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (25, 'c_view', 'CView', 'Vistas', 'Representaciones gráficas usadas para visualizar procesos');
+INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (26, 'c_process_view', 'CProcessView', 'Vistas de los procesos', 'Los procesos y sus representaciones gráficas');
 
 -- INSERT INTO c_column (c_column_id, db_name, name, description, fk_c_table_id) VALUES (...);
 
 -- Columnas de la tabla c_province
-INSERT INTO c_column (c_column_id, db_name, name, description, fk_c_table_id) VALUES (1, 'name', 'Provincia', 'Nombre de la provincia', 1);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (1, 'c_column_id', 'cProvinceId', 'Identificador', 'Identificador único de la provincia', 1);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (2, 'db_name', 'name', 'Provincia', 'Nombre de la provincia', 1);
 -- Columnas de la tabla c_locality
-INSERT INTO c_column (c_column_id, db_name, name, description, fk_c_table_id) VALUES (2, 'postal_code', 'Código postal', 'Código postal de la localidad', 2);
-INSERT INTO c_column (c_column_id, db_name, name, description, fk_c_table_id) VALUES (3, 'name', 'Localidad', 'Nombre de la localidad', 2);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (3, 'c_column_id', 'cLocalityId', 'Identificador', 'Identificador único de la localidad', 2);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (4, 'postal_code', 'postalCode', 'Código postal', 'Código postal de la localidad', 2);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (5, 'db_name', 'name', 'Localidad', 'Nombre de la localidad', 2);
 
-INSERT INTO c_window (c_window_id, name, description) VALUES (6, 'Provincias', 'Conjunto de tablas relacionadas con las provincias');
-  INSERT INTO c_window_table (c_window_table_id, level, secuence, fk_c_table_id, fk_c_window_id) VALUES (1, 0, 0, 1, 6);
-  INSERT INTO c_window_table (c_window_table_id, level, secuence, fk_c_table_id, fk_c_window_id) VALUES (2, 1, 0, 2, 6);
+INSERT INTO c_window (c_window_id, name, description, fk_c_table_id) VALUES (6, 'Provincias', 'Ventata con las provincias', 1);
 
 INSERT INTO c_report (c_report_id, report_path) VALUES (5, '/core/report/getTable.jrxml');
 

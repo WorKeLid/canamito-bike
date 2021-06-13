@@ -33,26 +33,6 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
 
-<!-- 					<li class="nav-item"><a class="nav-link active" -->
-<!-- 						aria-current="page" href="#">Link 1</a></li> -->
-
-<!-- 					<li class="nav-item dropdown"> -->
-<!-- 			            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="nav-label">Services</span> <span class="caret"></span></a> -->
-<!-- 			            <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
-<!-- 			                <li class="nav-item"><a class="dropdown-item" href="#">Service A</a></li> -->
-<!-- 			                <li class="nav-item"><a class="dropdown-item" href="#">Service B</a></li> -->
-<!-- 			                <li class="dropdown-submenu"> -->
-<!-- 			                    <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Service C</a> -->
-<!-- 			                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
-<!-- 			                        <li class="nav-item"><a class="dropdown-item" href="#">Service C1</a></li> -->
-<!-- 			                        <li class="nav-item"><a class="dropdown-item" href="#">Service C2</a></li> -->
-<!-- 			                        <li class="nav-item"><a class="dropdown-item" href="#">Service C3</a></li> -->
-<!-- 			                        <li class="nav-item"><a class="dropdown-item" href="#">Service C4</a></li> -->
-<!-- 			                        <li class="nav-item"><a class="dropdown-item" href="#">Service C5</a></li> -->
-<!-- 			                    </ul> -->
-<!-- 			                </li> -->
-<!-- 			            </ul> -->
-<!-- 			        </li> -->
 					<cb:CBTDrawMenuItems></cb:CBTDrawMenuItems>
 
 					<c:choose>
@@ -65,10 +45,10 @@
 								<ul class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="navbarDropdown">
 									<li><a class="dropdown-item"
-										href="${request.contextPath}/CanamitoBike/app/Preferences">Preferencias</a></li>
+										href="${request.contextPath}/CanamitoBike/app/preferencias">Preferencias</a></li>
 									<li><hr class="dropdown-divider" /></li>
 									<li><a class="dropdown-item"
-										href="${request.contextPath}/CanamitoBike/app/Logout">Cerrar
+										href="${request.contextPath}/CanamitoBike/app/salir">Cerrar
 											sesión</a></li>
 								</ul></li>
 						</c:when>
@@ -89,7 +69,7 @@
 												<button type="button" class="btn-close"
 													data-bs-dismiss="modal" aria-label="Close"></button>
 											</div>
-											<form action="/CanamitoBike/app/Login" method="post">
+											<form action="/CanamitoBike/app/inicio-sesion" method="post">
 												<div class="modal-body">
 
 													<div class="mb-3 align-items-center">

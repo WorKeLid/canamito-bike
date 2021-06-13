@@ -1,30 +1,39 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import es.canamito.app.model.CBAttribute;
 
 /**
- * The persistent class for the c_province database table.
- * 
+ * The persistent class for the c_province database table. TODO: Documentacion
  */
 @Entity
-@Table(name="c_province")
-@NamedQuery(name="CProvince.findAll", query="SELECT c FROM CProvince c")
-public class CProvince implements Serializable {
+@Table(name = "c_province")
+@NamedQuery(name = "CProvince.findAll", query = "SELECT c FROM CProvince c")
+public class CProvince implements Serializable, CBModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="c_province_id", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "c_province_id", unique = true, nullable = false)
 	private Integer cProvinceId;
 
-	@Column(nullable=false, length=64)
+	@Column(nullable = false, length = 64)
 	private String name;
 
-	//bi-directional many-to-one association to CLocality
-	@OneToMany(mappedBy="CProvince")
+	// bi-directional many-to-one association to CLocality
+	@OneToMany(mappedBy = "CProvince")
 	private List<CLocality> CLocalities;
 
 	public CProvince() {
@@ -66,6 +75,21 @@ public class CProvince implements Serializable {
 		CLocality.setCProvince(null);
 
 		return CLocality;
+	}
+
+	/**
+	 * TODO: Documentacion
+	 */
+	public List<CBAttribute> getAttributes() {
+		List<CBAttribute> res = new ArrayList<CBAttribute>();
+
+		CBAttribute id = new CBAttribute("id", this.cProvinceId.getClass(), this.cProvinceId);
+		CBAttribute name = new CBAttribute("text", this.name.getClass(), this.name);
+
+		res.add(id);
+		res.add(name);
+
+		return res;
 	}
 
 }

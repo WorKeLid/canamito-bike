@@ -55,7 +55,7 @@ public class CBFlowController extends HttpServlet {
 						.forward(request, response);
 			}
 		} catch (Exception e) {
-			log.error(e.getClass() + ": " + e.getCause().getClass() + ": " + e.getMessage());
+			log.error(e.getClass() + ": " + ": " + e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp").forward(request,
 					response);
 		} finally {

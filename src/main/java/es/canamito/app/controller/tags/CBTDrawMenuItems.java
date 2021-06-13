@@ -32,7 +32,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 			CUser user = CBDalUtils.getUserInSession((HttpServletRequest) pageContext.getRequest());
 			Set<CMenu> allMenus = CBDalUtils.getUserMenus(user);
 
-			List<CBTree<CMenu>> tree = getCBTree(allMenus);
+			List<CBTree<CMenu>> tree = getCBTree(allMenus, user);
 
 //			for (CBTree<CMenu> root : tree) {
 //				log.trace(root.getNode().getName());
@@ -47,7 +47,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 			drawTree(tree);
 
 		} catch (Exception e) {
-			// No va a evaluar el contenido del cuerpo de la etiqueta
+			log.error(e.getClass() + ": " + e.getMessage());
 			res = SKIP_BODY;
 		}
 		return res;
@@ -73,7 +73,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 	 * @param allMenus Todos los menus a los que el usuario tiene acceso
 	 * @return Una lista de árboles de procesos
 	 */
-	private List<CBTree<CMenu>> getCBTree(Set<CMenu> allMenus) {
+	private List<CBTree<CMenu>> getCBTree(Set<CMenu> allMenus, CUser cUser) {
 		List<CBTree<CMenu>> res = new ArrayList<CBTree<CMenu>>();
 
 		// Son menús raíz aquellos que no tienen padres
@@ -84,7 +84,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 		} else {
 			for (CMenu r : rootMenus) {
 				CBTree<CMenu> root = new CBTree<CMenu>(r);
-				constructRoot(root);
+				constructRoot(root, cUser);
 				res.add(root);
 			}
 		}
@@ -98,12 +98,13 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 	 * @param root     El nodo raíz que contiene todos los procesos hijos
 	 * @param allMenus Todos los nodos a los que el usuario tiene acceso
 	 */
-	private void constructRoot(CBTree<CMenu> root) {
-		List<CMenu> lchildren = CBDalUtils.getChildren(root.getNode());
+	private void constructRoot(CBTree<CMenu> root, CUser cUser) {
+		List<CMenu> lchildren = CBDalUtils.getChildren(root.getNode(), cUser);
+		Collections.sort(lchildren);
 		for (CMenu c : lchildren) {
 			CBTree<CMenu> child = new CBTree<CMenu>(c);
 			root.addChild(child);
-			constructRoot(child);
+			constructRoot(child, cUser);
 		}
 	}
 

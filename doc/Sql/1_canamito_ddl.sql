@@ -178,6 +178,7 @@ CREATE TABLE c_table (
   c_table_id SERIAL PRIMARY KEY,
 
   db_name VARCHAR(64) NOT NULL UNIQUE,
+  class_name VARCHAR(64) NOT NULL UNIQUE,
   name VARCHAR(64) NOT NULL UNIQUE,
   description VARCHAR(256)
 );
@@ -186,6 +187,7 @@ CREATE TABLE c_column (
   c_column_id SERIAL PRIMARY KEY,
 
   db_name VARCHAR(64) NOT NULL,
+  attribute_name VARCHAR(64) NOT NULL,
   name VARCHAR(64) NOT NULL,
   description VARCHAR(256),
 
@@ -196,20 +198,9 @@ CREATE TABLE c_window (
   c_window_id SERIAL PRIMARY KEY REFERENCES c_process (c_process_id) ON DELETE CASCADE,
 
   name VARCHAR(64) NOT NULL UNIQUE,
-  description VARCHAR(256) NOT NULL
-);
+  description VARCHAR(256) NOT NULL,
 
-CREATE TABLE c_window_table (
-  c_window_table_id SERIAL PRIMARY KEY,
-
-  level SMALLINT NOT NULL,
-  secuence SMALLINT NOT NULL,
-
-  fk_c_table_id INTEGER NOT NULL REFERENCES c_table (c_table_id) ON DELETE CASCADE,
-  fk_c_window_id INTEGER NOT NULL REFERENCES c_window (c_window_id) ON DELETE CASCADE,
-
-  UNIQUE (fk_c_table_id, fk_c_window_id),
-  UNIQUE (fk_c_window_id, level, secuence)
+  fk_c_table_id INTEGER NOT NULL REFERENCES c_table (c_table_id) ON DELETE CASCADE
 );
 
 CREATE TABLE c_report (

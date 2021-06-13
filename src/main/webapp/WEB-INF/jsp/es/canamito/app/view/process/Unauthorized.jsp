@@ -12,7 +12,7 @@ request.setCharacterEncoding("utf-8");
 	<p>La página a la que estás intentando acceder no existe o no estás
 		autorizado
 	<p>
-		<a href="${request.contextPath}/CanamitoBike/app/HomePage">Volver
+		<a href="${request.contextPath}/CanamitoBike/app/pagina-principal">Volver
 			a la página principal</a>
 </div>
 

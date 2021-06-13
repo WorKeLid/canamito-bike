@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -148,7 +147,7 @@ public class CBDalUtils {
 
 			List<CRol> lRoles = tQuery.getResultList();
 
-			res = lRoles.stream().filter(r -> r.getCRolId() == 5).findAny().orElse(null);
+			res = lRoles.stream().filter(r -> r.getCRolId() == 3).findAny().orElse(null);
 
 		} catch (Exception e) {
 			log.error("getAnonymousRole: " + e.getClass() + ": " + e.getMessage());
@@ -156,20 +155,30 @@ public class CBDalUtils {
 		return res;
 	}
 
-	public static List<CMenu> getChildren(CMenu menu) {
+	public static List<CMenu> getChildren(CMenu menu, CUser cUser) {
 		List<CMenu> res = new ArrayList<CMenu>();
 		try {
-			CBDal cbd = new CBDal();
+			Set<CMenu> userMenus = getUserMenus(cUser);
 
-			CriteriaBuilder cBuilder = cbd.getEntityManager().getCriteriaBuilder();
-			CriteriaQuery<CMenu> cQuery = cBuilder.createQuery(CMenu.class);
+			for (CMenu c : userMenus) {
+				if (c.getCMenu() != null) {
+					if (c.getCMenu().getCMenuId().equals(menu.getCMenuId())) {
+						res.add(c);
+					}
+				}
+			}
+//			CBDal cbd = new CBDal();
+//
+//			CriteriaBuilder cBuilder = cbd.getEntityManager().getCriteriaBuilder();
+//			CriteriaQuery<CMenu> cQuery = cBuilder.createQuery(CMenu.class);
+//
+//			TypedQuery<CMenu> tQuery = cbd.getEntityManager().createQuery(cQuery);
+//
+//			List<CMenu> lMenus = tQuery.getResultList();
+//
+//			lMenus = lMenus.stream().filter(m -> m.getCMenu() != null)
+//					.filter(m -> m.getCMenu().getCMenuId().equals(menu.getCMenuId())).collect(Collectors.toList());
 
-			TypedQuery<CMenu> tQuery = cbd.getEntityManager().createQuery(cQuery);
-
-			List<CMenu> lMenus = tQuery.getResultList();
-
-			res = lMenus.stream().filter(m -> m.getCMenu() != null)
-					.filter(m -> m.getCMenu().getCMenuId().equals(menu.getCMenuId())).collect(Collectors.toList());
 		} catch (Exception e) {
 			log.error("getChildren: " + e.getClass() + ": " + e.getMessage());
 		}

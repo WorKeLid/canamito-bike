@@ -1,41 +1,47 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the c_table database table.
  * 
  */
 @Entity
-@Table(name="c_table")
-@NamedQuery(name="CTable.findAll", query="SELECT c FROM CTable c")
+@Table(name = "c_table")
+@NamedQuery(name = "CTable.findAll", query = "SELECT c FROM CTable c")
 public class CTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="c_table_id", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "c_table_id", unique = true, nullable = false)
 	private Integer cTableId;
 
-	@Column(name="db_name", nullable=false, length=64)
+	@Column(name = "db_name", nullable = false, length = 64)
 	private String dbName;
 
-	@Column(length=256)
+	@Column(name = "class_name", nullable = false, length = 64)
+	private String className;
+
+	@Column(length = 256)
 	private String description;
 
-	@Column(nullable=false, length=64)
+	@Column(nullable = false, length = 64)
 	private String name;
 
-	//bi-directional many-to-one association to CColumn
-	@OneToMany(mappedBy="CTable")
+	// bi-directional many-to-one association to CColumn
+	@OneToMany(mappedBy = "CTable")
 	private List<CColumn> CColumns;
-
-	//bi-directional many-to-one association to CWindowTable
-	@OneToMany(mappedBy="CTable")
-	private List<CWindowTable> CWindowTables;
 
 	public CTable() {
 	}
@@ -52,8 +58,16 @@ public class CTable implements Serializable {
 		return this.dbName;
 	}
 
+	public String getClassName() {
+		return this.className;
+	}
+
 	public void setDbName(String dbName) {
 		this.dbName = dbName;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 	public String getDescription() {
@@ -92,28 +106,6 @@ public class CTable implements Serializable {
 		CColumn.setCTable(null);
 
 		return CColumn;
-	}
-
-	public List<CWindowTable> getCWindowTables() {
-		return this.CWindowTables;
-	}
-
-	public void setCWindowTables(List<CWindowTable> CWindowTables) {
-		this.CWindowTables = CWindowTables;
-	}
-
-	public CWindowTable addCWindowTable(CWindowTable CWindowTable) {
-		getCWindowTables().add(CWindowTable);
-		CWindowTable.setCTable(this);
-
-		return CWindowTable;
-	}
-
-	public CWindowTable removeCWindowTable(CWindowTable CWindowTable) {
-		getCWindowTables().remove(CWindowTable);
-		CWindowTable.setCTable(null);
-
-		return CWindowTable;
 	}
 
 }

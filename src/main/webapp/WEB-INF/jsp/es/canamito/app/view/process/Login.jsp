@@ -9,7 +9,7 @@ request.setCharacterEncoding("utf-8");
 </jsp:include>
 
 <div class="d-flex justify-content-center">
-	<form action="/CanamitoBike/app/Login" method="post" class="w-25">
+	<form action="/CanamitoBike/app/inicio-sesion" method="post" class="w-25">
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">Correo electrónico</label>
 			<div class="col-sm-10">
