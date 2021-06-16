@@ -11,7 +11,7 @@ package es.canamito.app.model;
 public class CBMessage {
 
 	enum Type {
-		SUCCSESS, INFO, WARNING, ERROR
+		primary, success, warning, danger
 	}
 
 	private Type type;
@@ -24,7 +24,7 @@ public class CBMessage {
 	 * aplicación, el título y la descripción contiene la información del
 	 * mensaje</div>
 	 * 
-	 * @param type        Existen cuatro tipos {SUCCSESS, INFO, WARNING, ERROR}
+	 * @param type        Existen cuatro tipos {primary, success, warning, danger}
 	 * @param title       Título del mensaje
 	 * @param description Descripción del mensaje
 	 */
@@ -35,11 +35,16 @@ public class CBMessage {
 	}
 
 	/**
-	 * <div>Instancia una excepción como un mensaje</div>
+	 * <div>Instancia una excepción sobre la operación realizada.</div><div>El tipo
+	 * determina como se muestra el mensaje en la aplicación, el título y la
+	 * descripción contiene la información del mensaje</div>
 	 * 
-	 * @param exception La excepción capturada
+	 * @param type        Existen cuatro tipos {primary, success, warning, danger}
+	 * @param title       Título del mensaje
+	 * @param description Descripción del mensaje
+	 * @param exception   La excepción capturada
 	 */
-	public CBMessage(Exception exception) {
+	public CBMessage(String type, String title, String description, Exception exception) {
 		setType("ERROR");
 		setTitle(exception.getClass().getName());
 		setDescription(exception.getMessage());

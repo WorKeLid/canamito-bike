@@ -13,12 +13,14 @@ public class CBAttribute {
 	}
 
 	private InputType inputType;
-	private Class<?> javaType;
+
+	private String inputName;
+
 	private Object value;
 
-	public CBAttribute(String inputType, Class<?> javaType, Object value) {
+	public CBAttribute(String inputType, String inputName, Object value) {
 		setInputType(inputType);
-		this.javaType = javaType;
+		this.inputName = inputName;
 		this.value = value;
 	}
 
@@ -30,8 +32,8 @@ public class CBAttribute {
 		return this.inputType;
 	}
 
-	public Class<?> getJavaType() {
-		return this.javaType;
+	public String getInputName() {
+		return this.inputName;
 	}
 
 	public Object getValue() {

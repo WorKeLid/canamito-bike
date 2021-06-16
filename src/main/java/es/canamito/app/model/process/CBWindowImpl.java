@@ -37,6 +37,7 @@ public class CBWindowImpl extends CBProcessImpl implements CBProcess {
 	public void execute() throws Exception {
 
 		getRequest().setAttribute("table", getTable());
+		getRequest().setAttribute("process", getCProcess());
 
 		log.debug("viewing with " + getProcessDefaultView());
 		getRequest().getRequestDispatcher(getProcessDefaultView()).forward(getRequest(), getResponse());

@@ -83,8 +83,8 @@ public class CProvince implements Serializable, CBModel {
 	public List<CBAttribute> getAttributes() {
 		List<CBAttribute> res = new ArrayList<CBAttribute>();
 
-		CBAttribute id = new CBAttribute("id", this.cProvinceId.getClass(), this.cProvinceId);
-		CBAttribute name = new CBAttribute("text", this.name.getClass(), this.name);
+		CBAttribute id = new CBAttribute("id", "cProvinceId", this.cProvinceId);
+		CBAttribute name = new CBAttribute("text", "name", this.name);
 
 		res.add(id);
 		res.add(name);

@@ -1,6 +1,9 @@
 img {
   width: 90px; }
 
+.dropdown-menu {
+  background-color: lightgrey; }
+
 .dropdown-submenu {
   position: relative; }
 
@@ -9,7 +12,6 @@ img {
   left: 100%;
   margin-top: -6px; }
 
-/* rotate caret on hover */
 body {
   padding: 5px; }
 
@@ -20,5 +22,20 @@ body {
 .flex-container > div {
   margin: 4px;
   text-align: center; }
+
+.alert {
+  padding: .25rem 1rem; }
+
+@media screen and (max-width: 991px) {
+  body {
+    background-color: green; } }
+@media screen and (max-width: 767px) {
+  body {
+    background-color: yellow;
+    padding: 0px; } }
+@media screen and (max-width: 575px) {
+  body {
+    background-color: red;
+    padding: 0px; } }
 
 /*# sourceMappingURL=canamitoCustom.css.map */

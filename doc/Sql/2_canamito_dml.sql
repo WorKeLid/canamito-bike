@@ -384,6 +384,7 @@ INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_typ
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (7, 'Formulario de registo de autorizantes', 'es.canamito.app.controller.process.SigninAuthorizer', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (8, 'Preferencias del usuario', 'es.canamito.app.controller.process.Preferences', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (9, 'Cerrar sesión', 'es.canamito.app.controller.process.Logout', 1);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (10, 'Ver mis autorizantes', 'es.canamito.app.controller.process.window.MyAuthorizer', 2);
 -- Grupos de menú
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (1, 'Acciones', 'Grupo para los procesos', null, null);
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (2, 'Ventanas', 'Grupo para las ventanas', null, null);
@@ -400,8 +401,9 @@ INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c
 
 --Entradas de menú: Ventanas
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (11, 'Provincias', 'provincias', 'Accede a las provincias definidas', 2, 6);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (12, 'Mis autorizantes', 'mis-autorizantes', 'Accede a tus autorizantes', 2, 10);
 -- Entradas de menú: Informes
-INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (12, 'Informe de provincias', 'informe-provincias', 'Genera un informe sobre las provincias', 3, 5);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (13, 'Informe de provincias', 'informe-provincias', 'Genera un informe sobre las provincias', 3, 5);
 
 -- Rol administrador
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (1, 1, 1);
@@ -416,7 +418,7 @@ INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (8, 1, 
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (9, 1, 9);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (10, 1, 10);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (11, 1, 11);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (12, 1, 12);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (12, 1, 13);
 
 -- Rol usuario
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (13, 2, 1);
@@ -427,15 +429,16 @@ INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (16, 2,
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (17, 2, 8);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (18, 2, 9);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (19, 2, 10);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (20, 2, 12);
 
 -- Rol Anónimo
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (20, 3, 1);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (21, 3, 2);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (22, 3, 3);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (21, 3, 1);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (22, 3, 2);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (23, 3, 3);
 
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (23, 3, 4);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (24, 3, 5);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (25, 3, 6);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (24, 3, 4);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (25, 3, 5);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (26, 3, 6);
 
 
 INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (1, 'c_province', 'CProvince', 'Provincias', 'Provincias de España');
@@ -485,10 +488,40 @@ INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (3, 'Página principal', '
 INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (4, 'Ventana', '/WEB-INF/jsp/es/canamito/app/view/process/WindowGenerator.jsp');
 INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (5, 'Visualizacion del sistema', '/WEB-INF/jsp/es/canamito/app/view/process/SystemAdministration.jsp');
 INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (6, 'Inicio de sesión', '/WEB-INF/jsp/es/canamito/app/view/process/Login.jsp');
-INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (7, 'Formulario de registo para usuarios', '/WEB-INF/jsp/es/canamito/app/view/process/SigninAuthorizer.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (7, 'Formulario de registo para autorizadores', '/WEB-INF/jsp/es/canamito/app/view/process/SigninAuthorizer.jsp');
+INSERT INTO c_view (c_view_id, name, jsp_path) VALUES (8, 'Formulario de registo para usuarios', '/WEB-INF/jsp/es/canamito/app/view/process/Signin.jsp');
+
 
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (1, TRUE, 1, 3);
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (2, TRUE, 2, 6);
-INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (3, TRUE, 3, 7);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (3, TRUE, 3, 8);
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (4, TRUE, 4, 5);
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (5, TRUE, 6, 4);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (6, TRUE, 7, 7);
+
+SELECT setval('c_province_c_province_id_seq', (SELECT MAX(c_province_id) FROM c_province));
+SELECT setval('c_locality_c_locality_id_seq', (SELECT MAX(c_locality_id) FROM c_locality));
+SELECT setval('c_person_c_person_id_seq', (SELECT MAX(c_person_id) FROM c_person));
+SELECT setval('c_authorization_c_authorization_id_seq', (SELECT MAX(c_authorization_id) FROM c_authorization));
+SELECT setval('c_person_authorization_c_person_authorization_id_seq', (SELECT MAX(c_person_authorization_id) FROM c_person_authorization));
+SELECT setval('c_grade_c_grade_id_seq', (SELECT MAX(c_grade_id) FROM c_grade));
+SELECT setval('c_letter_c_letter_id_seq', (SELECT MAX(c_letter_id) FROM c_letter));
+SELECT setval('c_group_c_group_id_seq', (SELECT MAX(c_group_id) FROM c_group));
+SELECT setval('c_group_person_c_group_person_id_seq', (SELECT MAX(c_group_person_id) FROM c_group_person));
+SELECT setval('c_organization_c_organization_id_seq', (SELECT MAX(c_organization_id) FROM c_organization));
+SELECT setval('c_person_organization_c_person_organization_id_seq', (SELECT MAX(c_person_organization_id) FROM c_person_organization));
+SELECT setval('c_user_c_user_id_seq', (SELECT MAX(c_user_id) FROM c_user));
+SELECT setval('c_user_recovery_c_user_recovery_id_seq', (SELECT MAX(c_user_recovery_id) FROM c_user_recovery));
+SELECT setval('c_user_preferences_c_user_preferences_id_seq', (SELECT MAX(c_user_preferences_id) FROM c_user_preferences));
+SELECT setval('c_rol_c_rol_id_seq', (SELECT MAX(c_rol_id) FROM c_rol));
+SELECT setval('c_user_rol_c_user_rol_id_seq', (SELECT MAX(c_user_rol_id) FROM c_user_rol));
+SELECT setval('c_process_type_c_process_type_id_seq', (SELECT MAX(c_process_type_id) FROM c_process_type));
+SELECT setval('c_process_c_process_id_seq', (SELECT MAX(c_process_id) FROM c_process));
+SELECT setval('c_menu_c_menu_id_seq', (SELECT MAX(c_menu_id) FROM c_menu));
+SELECT setval('c_rol_menu_c_rol_menu_id_seq', (SELECT MAX(c_rol_menu_id) FROM c_rol_menu));
+SELECT setval('c_table_c_table_id_seq', (SELECT MAX(c_table_id) FROM c_table));
+SELECT setval('c_column_c_column_id_seq', (SELECT MAX(c_column_id) FROM c_column));
+SELECT setval('c_window_c_window_id_seq', (SELECT MAX(c_window_id) FROM c_window));
+SELECT setval('c_report_c_report_id_seq', (SELECT MAX(c_report_id) FROM c_report));
+SELECT setval('c_view_c_view_id_seq', (SELECT MAX(c_view_id) FROM c_view));
+SELECT setval('c_process_view_c_process_view_id_seq', (SELECT MAX(c_process_view_id) FROM c_process_view));

@@ -17,6 +17,7 @@ import es.canamito.app.model.CBAttribute;
 import es.canamito.app.model.CBAttribute.InputType;
 import es.canamito.persistance.model.CBModel;
 import es.canamito.persistance.model.CColumn;
+import es.canamito.persistance.model.CProcess;
 import es.canamito.persistance.model.CTable;
 
 public class CBTDrawTableModel extends TagSupport implements TryCatchFinally {
@@ -29,13 +30,13 @@ public class CBTDrawTableModel extends TagSupport implements TryCatchFinally {
 		int res = EVAL_BODY_INCLUDE;
 
 		try {
-			Object o = pageContext.getRequest().getAttribute("table");
 			Map<CTable, List<CBModel>> table = new HashMap<CTable, List<CBModel>>();
-			if (o != null) {
-				table = (Map<CTable, List<CBModel>>) o;
-			}
+			table = (Map<CTable, List<CBModel>>) pageContext.getRequest().getAttribute("table");
+
+			CProcess process = (CProcess) pageContext.getRequest().getAttribute("process");
+
 			if (!table.isEmpty()) {
-				drawTable(table);
+				drawTable(table, process);
 			} else {
 				log.debug("table is empty");
 			}
@@ -60,11 +61,11 @@ public class CBTDrawTableModel extends TagSupport implements TryCatchFinally {
 	public void doFinally() {
 	}
 
-	private void drawTable(Map<CTable, List<CBModel>> table) throws IOException {
+	private void drawTable(Map<CTable, List<CBModel>> table, CProcess process) throws IOException {
 		JspWriter out = pageContext.getOut();
 
 		for (Map.Entry<CTable, List<CBModel>> t : table.entrySet()) {
-
+			// TODO: Ordenar Collections.sort(t.getValue());
 			List<String> headerValue = new ArrayList<String>();
 
 			out.println("<div class=\"border flex-container m-1\">");
@@ -76,9 +77,8 @@ public class CBTDrawTableModel extends TagSupport implements TryCatchFinally {
 			out.println("</div>");
 
 			for (CBModel cbm : t.getValue()) {
-				// TODO action dinamico
-				out.println(
-						"<form action=\"/CanamitoBike/app/provincias\" method=\"post\" class=\"border flex-container m-1\">");
+				out.println("<form action=\"/CanamitoBike/app/" + process.getCMenus().get(0).getPath()
+						+ "\" method=\"post\" class=\"border flex-container m-1\">");
 
 				for (int i = 0; i <= cbm.getAttributes().size() - 1; i++) {
 
@@ -89,11 +89,11 @@ public class CBTDrawTableModel extends TagSupport implements TryCatchFinally {
 					out.println("<header class=\"m-1\">" + headerValue.get(i) + "</header>");
 
 					if (col.getInputType().equals(InputType.id)) {
-						out.println("<input class=\"input-sm m-1\"" + "type=\"text" + "\" " + "value=\""
-								+ col.getValue() + "\" disabled" + ">");
+						out.println("<input class=\"input-sm m-1\"" + "type=\"number" + "\" " + "value=\""
+								+ col.getValue() + "\"" + " name=\"inpid" + "\"" + ">");
 					} else {
 						out.println("<input class=\"input-sm m-1\"" + "type=\"" + col.getInputType() + "\" "
-								+ "value=\"" + col.getValue() + "\" " + ">");
+								+ "value=\"" + col.getValue() + "\" name=\"inp" + col.getInputName() + "\"" + ">");
 					}
 					out.println("</div>");
 

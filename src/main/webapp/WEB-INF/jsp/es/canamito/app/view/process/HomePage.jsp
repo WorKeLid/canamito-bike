@@ -8,23 +8,23 @@ request.setCharacterEncoding("utf-8");
 	<jsp:param value="Página principal" name="title" />
 </jsp:include>
 
-<div>Bienvenido a la página principal de CañamitoBike</div>
-
 <table class="table table-striped">
+	<thead>
+		<tr>
+			<td class="table-primary">Roles</td>
+			<td class="table-primary">Correo electrónico</td>
+			<td class="table-primary">Contraseña</td>
+		</tr>
+	</thead>
 	<tr class="table-primary">
-		<td class="table-primary">Celda 1.1</td>
-		<td class="table-primary">Celda 2.1</td>
-		<td class="table-primary">Celda 3.1</td>
+		<td class="table-primary">Administrador, Usuario</td>
+		<td class="table-primary">workelid@gmail.com</td>
+		<td class="table-primary">canamito</td>
 	</tr>
 	<tr class="table-primary">
-		<td class="table-primary">Celda 1.2</td>
-		<td class="table-primary">Celda 2.2</td>
-		<td class="table-primary">Celda 3.2</td>
-	</tr>
-	<tr class="table-primary">
-		<td class="table-primary">Celda 1.3</td>
-		<td class="table-primary">Celda 2.3</td>
-		<td class="table-primary">Celda 3.3</td>
+		<td class="table-primary">Usuario</td>
+		<td class="table-primary">workelid+padre@gmail.com</td>
+		<td class="table-primary">canamito</td>
 	</tr>
 </table>
 

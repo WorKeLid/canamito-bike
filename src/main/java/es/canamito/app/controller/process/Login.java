@@ -37,6 +37,8 @@ public class Login extends CBProcessImpl implements CBProcess {
 			if (user != null) {
 				getRequest().getSession().setAttribute("user", user);
 				try {
+					CBMessage msg = new CBMessage("success", "Bienvenido", "");
+					getRequest().getSession().setAttribute("msg", msg);
 					getResponse().sendRedirect((getRequest().getContextPath() + "/"));
 				} catch (IOException e) {
 					log.error(e.getClass() + ": " + e.getMessage());
@@ -45,9 +47,9 @@ public class Login extends CBProcessImpl implements CBProcess {
 			} else {
 				log.info("invalid credentials");
 
-				CBMessage msg = new CBMessage("ERROR", "Credenciales no válidas",
+				CBMessage msg = new CBMessage("warning", "Credenciales no válidas",
 						"El correo electrónico no existe o la contraseña es incorrecta");
-				getRequest().setAttribute("msg", msg);
+				getRequest().getSession().setAttribute("msg", msg);
 			}
 		}
 		log.debug("viewing with " + getProcessDefaultView());
