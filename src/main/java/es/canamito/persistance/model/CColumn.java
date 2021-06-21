@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -23,7 +24,8 @@ public class CColumn implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "c_column_c_column_id_seq", sequenceName = "c_column_c_column_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "c_column_c_column_id_seq")
 	@Column(name = "c_column_id", unique = true, nullable = false)
 	private Integer cColumnId;
 
@@ -38,6 +40,9 @@ public class CColumn implements Serializable {
 
 	@Column(nullable = false, length = 64)
 	private String name;
+
+	@Column(length = 64)
+	private String inputType;
 
 	// bi-directional many-to-one association to CTable
 	@ManyToOne
@@ -63,6 +68,10 @@ public class CColumn implements Serializable {
 		return this.attributeName;
 	}
 
+	public String getInputType() {
+		return this.inputType;
+	}
+
 	public void setDbName(String dbName) {
 		this.dbName = dbName;
 	}
@@ -77,6 +86,10 @@ public class CColumn implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setInputType(String inputType) {
+		this.inputType = inputType;
 	}
 
 	public String getName() {

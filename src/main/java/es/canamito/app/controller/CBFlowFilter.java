@@ -21,7 +21,8 @@ import es.canamito.persistance.model.CMenu;
 import es.canamito.persistance.model.CUser;
 
 /**
- * Filtro principal que evalua si el usuario tiene acceso al recurso solicitado
+ * Filtro principal que evalúa si el usuario tiene acceso al recurso solicitado.
+ * Es llamado en el acceso a cualquier recurso de la aplicación.
  * 
  * @author wkl
  * @version 1.210522 - Documentación e implementación inicial del filtro
@@ -47,7 +48,7 @@ public class CBFlowFilter implements Filter {
 		String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
 		if (path.startsWith("/app/")) {
-			log.info("doFilter to " + path);
+			log.trace("doFilter: to " + path);
 
 			if (grantAccess(httpRequest)) {
 				request.getRequestDispatcher(path).forward(request, response);
@@ -56,16 +57,15 @@ public class CBFlowFilter implements Filter {
 						.forward(request, response);
 			}
 		} else if (path.startsWith("/resources/")) {
-			// log.trace("doChain to " + path);
+			// TODO: Demasiado verboso log.trace("doChain to " + path);
 			chain.doFilter(request, response);
 		} else if (path.startsWith("/")) {
-			log.info("redirecting to " + httpRequest.getContextPath() + "/app/pagina-principal");
+			log.trace("doFilter: redirecting to " + httpRequest.getContextPath() + "/app/pagina-principal");
 
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/pagina-principal");
 		} else {
-			log.info("unauthorized access to " + path);
-
+			log.info("doFilter: unauthorized access to " + path);
 			request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp").forward(request,
 					response);
 		}
@@ -73,7 +73,7 @@ public class CBFlowFilter implements Filter {
 
 	/**
 	 * Función que determina si se le concede acceso al usuario al recurso que está
-	 * solicitando
+	 * solicitando. Esta evaluación solo ocurre sobre los recursos en /app
 	 * 
 	 * @return true si el usuario tiene acceso al recurso, false si no
 	 */
@@ -89,9 +89,9 @@ public class CBFlowFilter implements Filter {
 		res = userMenus.stream().filter(m -> m.getPath() != null).anyMatch(m -> m.getPath().equals(goingTo)) ? true
 				: false;
 		if (res) {
-			log.debug("access granted to " + cUser + " to " + goingTo);
+			log.trace("grantAccess: access granted to " + goingTo);
 		} else {
-			log.debug("access denied to " + cUser + " to " + goingTo);
+			log.trace("grantAccess: access denied to " + goingTo);
 		}
 		return res;
 	}

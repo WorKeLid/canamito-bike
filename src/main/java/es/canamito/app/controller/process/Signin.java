@@ -16,14 +16,23 @@ import es.canamito.persistance.model.CRol;
 import es.canamito.persistance.model.CUser;
 import es.canamito.persistance.model.CUserRol;
 
+/**
+ * Proceso para registrarse un usuario con rol Usuario
+ * 
+ * @author wkl
+ *
+ */
 public class Signin extends CBProcessImpl implements CBProcess {
 
-	@Override
+	public Signin() {
+		super();
+	}
+
 	public void execute() throws Exception {
-		log.debug("executing " + this.getClass().getCanonicalName());
+		log.trace("execute: " + this.getClass().getCanonicalName());
 
 		if (isPost()) {
-			log.trace("incoming post");
+			log.trace("execute: incoming post");
 
 			if (!isEmailRegistered()) {
 				CUser user = registerUser();
@@ -35,12 +44,12 @@ public class Signin extends CBProcessImpl implements CBProcess {
 						getRequest().getSession().setAttribute("msg", msg);
 						getResponse().sendRedirect((getRequest().getContextPath() + "/"));
 					} catch (IOException e) {
-						log.error(e.getClass() + ": " + e.getMessage());
+						log.error("execute: " + e.getClass() + ": " + e.getMessage());
 					}
 					return;
 				}
 			} else {
-				log.info("email already in use");
+				log.info("execute: email already in use");
 
 				CBMessage msg = new CBMessage("warning", "Correo electrónico en uso",
 						"El correo electrónico ya se encuentra registrado");
@@ -51,12 +60,17 @@ public class Signin extends CBProcessImpl implements CBProcess {
 
 		} else {
 
-			log.trace("viewing with " + getProcessDefaultView());
+			log.trace("execute: viewing with " + getProcessDefaultView());
 			getRequest().getRequestDispatcher(getProcessDefaultView()).forward(getRequest(), getResponse());
 		}
 
 	}
 
+	/**
+	 * Consulta si el correo electrónico ya está registrado en la aplicación
+	 * 
+	 * @return true si el correo está registrado, false si no
+	 */
 	private boolean isEmailRegistered() {
 		boolean res = false;
 		try {
@@ -81,6 +95,11 @@ public class Signin extends CBProcessImpl implements CBProcess {
 		return res;
 	}
 
+	/**
+	 * Persiste al usuario con rol Usuario
+	 * 
+	 * @return El nuevo usuario persistido
+	 */
 	private CUser registerUser() {
 		CUser res = new CUser();
 		res.setEmail(getRequest().getParameter("input_email"));
@@ -106,6 +125,11 @@ public class Signin extends CBProcessImpl implements CBProcess {
 		return res;
 	}
 
+	/**
+	 * Busca el rol Usuario en la aplicación
+	 * 
+	 * @return El rol Usuario si existe, null si no
+	 */
 	private CRol getUserRole() {
 
 		CBDal cbd = new CBDal();

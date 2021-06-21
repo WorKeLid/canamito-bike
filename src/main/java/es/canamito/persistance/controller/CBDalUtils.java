@@ -64,7 +64,7 @@ public class CBDalUtils {
 	}
 
 	/**
-	 * @param request
+	 * @param request El request donde buscar al usuario
 	 * @return El CUser de la sesión o null si no existe
 	 */
 	public static CUser getUserInSession(HttpServletRequest request) {
@@ -75,7 +75,8 @@ public class CBDalUtils {
 		Object userObject = httpSession.getAttribute("user");
 
 		if (userObject instanceof CUser) {
-			res = (CUser) userObject;
+			CBDal cbd = new CBDal();
+			res = cbd.getEntityManager().find(CUser.class, ((CUser) userObject).getCUserId());
 			log.trace("session email: " + res.getEmail());
 		} else {
 			log.trace("anonymous session");
@@ -84,7 +85,6 @@ public class CBDalUtils {
 	}
 
 	/**
-	 * 
 	 * @param cUser El usuario o null si es anónimo
 	 * @return Devuelve el conjunto de menús a los que el usuario tiene acceso
 	 */
@@ -123,17 +123,11 @@ public class CBDalUtils {
 				log.error("anonymous role not found");
 			}
 		}
-
-//		log.trace("Lista de menus accesibles");
-//		for (CMenu m : res) {
-//			log.trace("m: " + m.getName());
-//		}
-
 		return res;
 	}
 
 	/**
-	 * @return El rol considerado como anónimo
+	 * @return El rol considerado como anónimo o null si no existe
 	 */
 	public static CRol getAnonymousRole() {
 		CRol res = null;
@@ -147,7 +141,7 @@ public class CBDalUtils {
 
 			List<CRol> lRoles = tQuery.getResultList();
 
-			res = lRoles.stream().filter(r -> r.getCRolId() == 3).findAny().orElse(null);
+			res = lRoles.stream().filter(r -> r.getName().equals("Anónimo")).findAny().orElse(null);
 
 		} catch (Exception e) {
 			log.error("getAnonymousRole: " + e.getClass() + ": " + e.getMessage());
@@ -155,6 +149,14 @@ public class CBDalUtils {
 		return res;
 	}
 
+	/**
+	 * Devuelve aquellos menús hijos del menú dado
+	 * 
+	 * @param menu  El menú padre donde buscar a los hijos
+	 * @param cUser El usuario para determinar a que menús hijos tiene acceso
+	 * @return Una lista de menús hijos del padre a los que el usuario tiene acceso
+	 *         o null si no tiene
+	 */
 	public static List<CMenu> getChildren(CMenu menu, CUser cUser) {
 		List<CMenu> res = new ArrayList<CMenu>();
 		try {
@@ -167,18 +169,6 @@ public class CBDalUtils {
 					}
 				}
 			}
-//			CBDal cbd = new CBDal();
-//
-//			CriteriaBuilder cBuilder = cbd.getEntityManager().getCriteriaBuilder();
-//			CriteriaQuery<CMenu> cQuery = cBuilder.createQuery(CMenu.class);
-//
-//			TypedQuery<CMenu> tQuery = cbd.getEntityManager().createQuery(cQuery);
-//
-//			List<CMenu> lMenus = tQuery.getResultList();
-//
-//			lMenus = lMenus.stream().filter(m -> m.getCMenu() != null)
-//					.filter(m -> m.getCMenu().getCMenuId().equals(menu.getCMenuId())).collect(Collectors.toList());
-
 		} catch (Exception e) {
 			log.error("getChildren: " + e.getClass() + ": " + e.getMessage());
 		}

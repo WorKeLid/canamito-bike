@@ -9,6 +9,14 @@ import org.apache.logging.log4j.Logger;
 
 import es.canamito.app.model.CBMessage;
 
+/**
+ * Etiqueta para consumir el CBMessage generado por el proceso Si hay un
+ * CBMessage en sesión, se lo muestra al usuario y despues lo elimina de la
+ * sesión
+ * 
+ * @author wkl
+ * @version 1.210617 - Implementación y documentación inicial
+ */
 public class CBTConsumeCBMessage extends TagSupport implements TryCatchFinally {
 
 	private static final Logger log = LogManager.getLogger();
@@ -22,7 +30,7 @@ public class CBTConsumeCBMessage extends TagSupport implements TryCatchFinally {
 				displayCBMessage(msg);
 			}
 		} catch (Exception e) {
-			log.error(e.getClass() + ": " + e.getMessage());
+			log.error("doStartTag: " + e.getClass() + ": " + e.getMessage());
 			res = SKIP_BODY;
 		}
 		return res;
@@ -52,17 +60,17 @@ public class CBTConsumeCBMessage extends TagSupport implements TryCatchFinally {
 		CBMessage res = null;
 		Object msg = pageContext.getSession().getAttribute("msg");
 		if (msg != null) {
-			log.trace("message found for user");
+			log.trace("getCBMessage: message found for user");
 			res = (CBMessage) msg;
 			pageContext.getSession().removeAttribute("msg");
 		} else {
-			log.trace("no message for user");
+			log.trace("getCBMessage: no message for user");
 		}
 		return res;
 	}
 
 	/**
-	 * Muestra el CBMessage al usuario
+	 * Muestra el CBMessage al usuario, hace uso de Bootstrap 5
 	 * 
 	 * @param msg El CBMessage a mostrar
 	 */
@@ -81,7 +89,7 @@ public class CBTConsumeCBMessage extends TagSupport implements TryCatchFinally {
 					"<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>");
 			out.println("</div>");
 		} catch (Exception e) {
-			log.error(e.getClass() + ": " + e.getMessage());
+			log.error("displayCBMessage: " + e.getClass() + ": " + e.getMessage());
 		}
 	}
 }

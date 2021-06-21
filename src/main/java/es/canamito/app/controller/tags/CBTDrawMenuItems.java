@@ -20,6 +20,14 @@ import es.canamito.persistance.controller.CBDalUtils;
 import es.canamito.persistance.model.CMenu;
 import es.canamito.persistance.model.CUser;
 
+/**
+ * Etiqueta encargada de mostrar en la barra de navegación todos los procesos,
+ * ventanas e informes a los que el usuario tiene acceso. Si no hay usuario en
+ * sesión, se muestran solo los procesos asociados al rol Anónimo.
+ * 
+ * @author wkl
+ * @version 1.210617 - Implementación y documentación inicial
+ */
 public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 
 	private static final Logger log = LogManager.getLogger();
@@ -34,20 +42,10 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 
 			List<CBTree<CMenu>> tree = getCBTree(allMenus, user);
 
-//			for (CBTree<CMenu> root : tree) {
-//				log.trace(root.getNode().getName());
-//				for (CBTree<CMenu> children : root.getChildren()) {
-//					log.trace("-" + children.getNode().getName());
-//					for (CBTree<CMenu> children2 : children.getChildren()) {
-//						log.trace("--" + children2.getNode().getName());
-//					}
-//				}
-//			}
-
 			drawTree(tree);
 
 		} catch (Exception e) {
-			log.error(e.getClass() + ": " + e.getMessage());
+			log.error("doStartTag: " + e.getClass() + ": " + e.getMessage());
 			res = SKIP_BODY;
 		}
 		return res;
@@ -68,7 +66,9 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 	}
 
 	/**
-	 * Construye una lista de árboles de procesos
+	 * Construye una lista de árboles de procesos, cada árbol representa un tipo de
+	 * proceso (proceso, ventana, informe) y dentro de cada árbol se encuentran los
+	 * procesos de ese tipo
 	 * 
 	 * @param allMenus Todos los menus a los que el usuario tiene acceso
 	 * @return Una lista de árboles de procesos
@@ -80,7 +80,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 		List<CMenu> rootMenus = allMenus.stream().filter(m -> m.getCMenu() == null).collect(Collectors.toList());
 
 		if (rootMenus.isEmpty()) {
-			log.error("user does not have root menus defined");
+			log.error("getCBTree: user does not have root menus defined");
 		} else {
 			for (CMenu r : rootMenus) {
 				CBTree<CMenu> root = new CBTree<CMenu>(r);
@@ -110,7 +110,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 
 	/**
 	 * Dibuja en la cabecera Header.jsp los menús disponibles del usuario utilizando
-	 * bootstrap 5
+	 * Bootstrap 5
 	 * 
 	 * @param tree Listado de árboles de procesos a dibujar
 	 */
@@ -118,7 +118,7 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 		JspWriter out = pageContext.getOut();
 		for (CBTree<CMenu> root : treeList) {
 			if (root.getChildren().isEmpty()) {
-				log.info("root " + root.getNode().getName() + " is empty");
+				log.info("drawTree: root " + root.getNode().getName() + " is empty");
 			} else {
 				out.println(
 						"<li class=\"nav-item dropdown\"><a class=\"nav-link dropdown-toggle\" href=\"\" id=\"navbarDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">"
@@ -130,6 +130,13 @@ public class CBTDrawMenuItems extends TagSupport implements TryCatchFinally {
 		}
 	}
 
+	/**
+	 * Dibuja en la barra de navegación los procesos dentro de sus respectivos menús
+	 * 
+	 * @param out
+	 * @param root El menú del que coger los procesos a dibujar
+	 * @throws IOException
+	 */
 	private void drawRootChildren(JspWriter out, CBTree<CMenu> root) throws IOException {
 		for (CBTree<CMenu> m : root.getChildren()) {
 

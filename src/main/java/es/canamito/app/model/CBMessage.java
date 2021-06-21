@@ -3,7 +3,7 @@ package es.canamito.app.model;
 /**
  * <div>Contenedor con mensajes para el usuario.</div> <div>Existen dos
  * constructores, uno para mensajes informativos sobre la operación realizada y
- * otro para mostrar excepciones</div>
+ * otro que incluye excepciones</div>
  * 
  * @author wkl
  * @version 1.210601 - Implementación y documentación inicial
@@ -45,9 +45,9 @@ public class CBMessage {
 	 * @param exception   La excepción capturada
 	 */
 	public CBMessage(String type, String title, String description, Exception exception) {
-		setType("ERROR");
-		setTitle(exception.getClass().getName());
-		setDescription(exception.getMessage());
+		setType(type);
+		setTitle(title);
+		setDescription(description);
 		setException(exception);
 	}
 

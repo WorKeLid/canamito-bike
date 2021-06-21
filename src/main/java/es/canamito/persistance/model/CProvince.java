@@ -11,21 +11,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import es.canamito.app.model.CBAttribute;
 
 /**
- * The persistent class for the c_province database table. TODO: Documentacion
+ * The persistent class for the c_province database table.
+ * 
+ * @author wkl
+ * @version 1.210618 - Implementación y documentación de la interfaz
+ *          CBWindowable
  */
 @Entity
 @Table(name = "c_province")
 @NamedQuery(name = "CProvince.findAll", query = "SELECT c FROM CProvince c")
-public class CProvince implements Serializable, CBModel {
+public class CProvince implements Serializable, CBWindowable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "c_province_c_province_id_seq", sequenceName = "c_province_c_province_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "c_province_c_province_id_seq")
 	@Column(name = "c_province_id", unique = true, nullable = false)
 	private Integer cProvinceId;
 
@@ -77,19 +83,21 @@ public class CProvince implements Serializable, CBModel {
 		return CLocality;
 	}
 
-	/**
-	 * TODO: Documentacion
-	 */
+	public CBAttribute getId() {
+		return new CBAttribute("id", "cProvinceId", this.cProvinceId, this);
+	}
+
+	public CBAttribute getIdentifier() {
+		return new CBAttribute("text", "name", this.name, this);
+	}
+
 	public List<CBAttribute> getAttributes() {
 		List<CBAttribute> res = new ArrayList<CBAttribute>();
 
-		CBAttribute id = new CBAttribute("id", "cProvinceId", this.cProvinceId);
-		CBAttribute name = new CBAttribute("text", "name", this.name);
+		CBAttribute name = new CBAttribute("text", "name", this.name, this);
 
-		res.add(id);
 		res.add(name);
 
 		return res;
 	}
-
 }

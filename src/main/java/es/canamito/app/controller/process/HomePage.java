@@ -16,11 +16,11 @@ public class HomePage extends CBProcessImpl implements CBProcess {
 	}
 
 	public void execute() throws Exception {
-		log.debug("executing " + this.getClass().getCanonicalName());
+		log.trace("execute: " + this.getClass().getCanonicalName());
 
-		// TODO: Implementación
+		// TODO: Por el momento no es necesario ninguna implementación
 
-		log.debug("viewing with " + getProcessDefaultView());
+		log.trace("execute: viewing with " + getProcessDefaultView());
 		getRequest().getRequestDispatcher(getProcessDefaultView()).forward(getRequest(), getResponse());
 	}
 }

@@ -1,37 +1,52 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import es.canamito.app.model.CBAttribute;
 
 /**
  * The persistent class for the c_rol database table.
  * 
+ * @author wkl
+ * @version 1.210618 - Implementación y documentación de la interfaz
+ *          CBWindowable
  */
 @Entity
-@Table(name="c_rol")
-@NamedQuery(name="CRol.findAll", query="SELECT c FROM CRol c")
-public class CRol implements Serializable {
+@Table(name = "c_rol")
+@NamedQuery(name = "CRol.findAll", query = "SELECT c FROM CRol c")
+public class CRol implements Serializable, CBWindowable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="c_rol_id", unique=true, nullable=false)
+	@SequenceGenerator(name = "c_rol_c_rol_id_seq", sequenceName = "c_rol_c_rol_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "c_rol_c_rol_id_seq")
+	@Column(name = "c_rol_id", unique = true, nullable = false)
 	private Integer cRolId;
 
-	@Column(length=255)
+	@Column(length = 255)
 	private String description;
 
-	@Column(nullable=false, length=64)
+	@Column(nullable = false, length = 64)
 	private String name;
 
-	//bi-directional many-to-one association to CRolMenu
-	@OneToMany(mappedBy="CRol")
+	// bi-directional many-to-one association to CRolMenu
+	@OneToMany(mappedBy = "CRol")
 	private List<CRolMenu> CRolMenus;
 
-	//bi-directional many-to-one association to CUserRol
-	@OneToMany(mappedBy="CRol")
+	// bi-directional many-to-one association to CUserRol
+	@OneToMany(mappedBy = "CRol")
 	private List<CUserRol> CUserRols;
 
 	public CRol() {
@@ -103,6 +118,26 @@ public class CRol implements Serializable {
 		CUserRol.setCRol(null);
 
 		return CUserRol;
+	}
+
+	public CBAttribute getId() {
+		return new CBAttribute("id", "cRolId", this.cRolId, this);
+	}
+
+	public CBAttribute getIdentifier() {
+		return new CBAttribute("text", "name", this.name, this);
+	}
+
+	public List<CBAttribute> getAttributes() {
+		List<CBAttribute> res = new ArrayList<CBAttribute>();
+
+		CBAttribute name = new CBAttribute("text", "name", this.name, this);
+		CBAttribute description = new CBAttribute("text", "description", this.description, this);
+
+		res.add(name);
+		res.add(description);
+
+		return res;
 	}
 
 }

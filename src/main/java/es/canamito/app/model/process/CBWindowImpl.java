@@ -9,31 +9,36 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 import es.canamito.persistance.controller.CBDal;
-import es.canamito.persistance.model.CBModel;
+import es.canamito.persistance.model.CBWindowable;
 import es.canamito.persistance.model.CTable;
 
 /**
- * Implementacion padre de procesos de tipo ventana
+ * Implementacion padre de procesos de tipo ventana. Recibe de sus hijos un mapa
+ * con la tabla a mostrar y el proceso hijo que ha sido ejecutado
  * 
  * @author wkl
  * @version 1.210609 - Implementación inicial
  */
 public class CBWindowImpl extends CBProcessImpl implements CBProcess {
 
-	private Map<CTable, List<CBModel>> table;
+	private Map<CTable, List<CBWindowable>> table;
 
 	public CBWindowImpl() {
 		super();
 	}
 
-	protected void setTable(Map<CTable, List<CBModel>> table) {
+	protected void setTable(Map<CTable, List<CBWindowable>> table) {
 		this.table = table;
 	}
 
-	protected Map<CTable, List<CBModel>> getTable() {
+	protected Map<CTable, List<CBWindowable>> getTable() {
 		return this.table;
 	}
 
+	/**
+	 * Obtiene del proceso ventana hijo la un mapa con la tabla a mostrar y una
+	 * referencia al proceso que se ha ejecutado
+	 */
 	public void execute() throws Exception {
 
 		getRequest().setAttribute("table", getTable());
@@ -67,45 +72,4 @@ public class CBWindowImpl extends CBProcessImpl implements CBProcess {
 		}
 		return res;
 	}
-
-//	private void getTableData(List<CWindowTable> lWindowTables) throws Exception {
-//
-//		CBDal cbd = new CBDal();
-//
-//		for (CWindowTable cwt : lWindowTables) {
-//			String q = "SELECT ";
-//			List<CColumn> columns = cwt.getCTable().getCColumns();
-//			for (int i = 0; i < columns.size(); i++) {
-//				if (i >= columns.size() - 1) {
-//					q += "e." + columns.get(i).getAttributeName() + " ";
-//				} else {
-//					q += "e." + columns.get(i).getAttributeName() + ", ";
-//				}
-//			}
-//			q += "FROM " + cwt.getCTable().getClassName() + " e";
-//
-//			log.info("executing query: " + q);
-//			// Query query = cbd.getEntityManager().createQuery(q);
-//
-//			Class<?> c = Class.forName("es.canamito.persistance.model." + cwt.getCTable().getClassName());
-//
-//			log.debug(c.getName());
-//
-//			TypedQuery<?> query = cbd.getEntityManager().createQuery(q, c);
-//
-//			List<?> res = query.getResultList();
-//
-//			for (Object r : res) {
-//				if (r instanceof CProvince) {
-//					CProvince cp = (CProvince) r;
-//					log.debug("province: " + cp.getName());
-//				} else if (r instanceof CLocality) {
-//					CLocality cl = (CLocality) r;
-//					log.debug("locality: " + cl.getName());
-//				}
-//
-//			}
-//
-//		}
-
 }

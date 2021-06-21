@@ -16,8 +16,8 @@
 	</tag>
 	
 	<tag>
-		<name>CBTDrawTableModel</name>
-		<tag-class>es.canamito.app.controller.tags.CBTDrawTableModel
+		<name>CBTDrawWindow</name>
+		<tag-class>es.canamito.app.controller.tags.CBTDrawWindow
 		</tag-class>
 	</tag>
 

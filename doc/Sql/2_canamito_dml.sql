@@ -385,6 +385,11 @@ INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_typ
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (8, 'Preferencias del usuario', 'es.canamito.app.controller.process.Preferences', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (9, 'Cerrar sesión', 'es.canamito.app.controller.process.Logout', 1);
 INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (10, 'Ver mis autorizantes', 'es.canamito.app.controller.process.window.MyAuthorizer', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (11, 'Proceso que muestra las localidades', 'es.canamito.app.controller.process.window.Locality', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (12, 'Proceso que muestra a los usuarios', 'es.canamito.app.controller.process.window.User', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (13, 'Proceso que muestra los roles', 'es.canamito.app.controller.process.window.Rol', 2);
+INSERT INTO c_process (c_process_id, description, process_path, fk_c_process_type_id) VALUES (14, 'Proceso que muestra los roles de los usuarios', 'es.canamito.app.controller.process.window.UserRol', 2);
+
 -- Grupos de menú
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (1, 'Acciones', 'Grupo para los procesos', null, null);
 INSERT INTO c_menu (c_menu_id, name, description, fk_c_menu_group_id, fk_c_process_id) VALUES (2, 'Ventanas', 'Grupo para las ventanas', null, null);
@@ -401,9 +406,14 @@ INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c
 
 --Entradas de menú: Ventanas
 INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (11, 'Provincias', 'provincias', 'Accede a las provincias definidas', 2, 6);
-INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (12, 'Mis autorizantes', 'mis-autorizantes', 'Accede a tus autorizantes', 2, 10);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (12, 'Localidades', 'localidades', 'Accede a las localidades definidas', 2, 11);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (13, 'Mis autorizantes', 'mis-autorizantes', 'Accede a tus autorizantes', 2, 10);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (14, 'Usuarios', 'usuarios', 'Accede a los usuarios', 2, 12);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (15, 'Roles', 'roles', 'Accede a los roles', 2, 13);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (16, 'Roles de usuarios', 'roles-usuarios', 'Accede a los roles de los usuarios', 2, 14);
+
 -- Entradas de menú: Informes
-INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (13, 'Informe de provincias', 'informe-provincias', 'Genera un informe sobre las provincias', 3, 5);
+INSERT INTO c_menu (c_menu_id, name, path, description, fk_c_menu_group_id, fk_c_process_id) VALUES (17, 'Informe de provincias', 'informe-provincias', 'Genera un informe sobre las provincias', 3, 5);
 
 -- Rol administrador
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (1, 1, 1);
@@ -418,27 +428,31 @@ INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (8, 1, 
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (9, 1, 9);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (10, 1, 10);
 INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (11, 1, 11);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (12, 1, 13);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (12, 1, 12);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (13, 1, 14);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (14, 1, 15);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (15, 1, 16);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (16, 1, 17);
 
 -- Rol usuario
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (13, 2, 1);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (14, 2, 2);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (15, 2, 3);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (17, 2, 1);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (18, 2, 2);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (19, 2, 3);
 
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (16, 2, 4);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (17, 2, 8);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (18, 2, 9);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (19, 2, 10);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (20, 2, 12);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (20, 2, 4);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (21, 2, 8);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (22, 2, 9);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (23, 2, 10);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (24, 2, 12);
 
 -- Rol Anónimo
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (21, 3, 1);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (22, 3, 2);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (23, 3, 3);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (25, 3, 1);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (26, 3, 2);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (27, 3, 3);
 
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (24, 3, 4);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (25, 3, 5);
-INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (26, 3, 6);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (28, 3, 4);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (29, 3, 5);
+INSERT INTO c_rol_menu (c_rol_menu_id, fk_c_rol_id, fk_c_menu_id) VALUES (30, 3, 6);
 
 
 INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES (1, 'c_province', 'CProvince', 'Provincias', 'Provincias de España');
@@ -471,14 +485,46 @@ INSERT INTO c_table (c_table_id, db_name, class_name, name, description) VALUES 
 -- INSERT INTO c_column (c_column_id, db_name, name, description, fk_c_table_id) VALUES (...);
 
 -- Columnas de la tabla c_province
-INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (1, 'c_column_id', 'cProvinceId', 'Identificador', 'Identificador único de la provincia', 1);
-INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (2, 'db_name', 'name', 'Provincia', 'Nombre de la provincia', 1);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (1, 'c_column_id', 'cProvinceId', 'Identificador', 'Identificador único de la provincia', 'hidden', 1);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (2, 'name', 'name', 'Provincia', 'Nombre de la provincia', 'text', 1);
 -- Columnas de la tabla c_locality
-INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (3, 'c_column_id', 'cLocalityId', 'Identificador', 'Identificador único de la localidad', 2);
-INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (4, 'postal_code', 'postalCode', 'Código postal', 'Código postal de la localidad', 2);
-INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, fk_c_table_id) VALUES (5, 'db_name', 'name', 'Localidad', 'Nombre de la localidad', 2);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (3, 'c_column_id', 'cLocalityId', 'Identificador', 'Identificador único de la localidad', 'hidden', 2);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (4, 'postal_code', 'postalCode', 'Código postal', 'Código postal de la localidad', 'text', 2);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (5, 'name', 'name', 'Localidad', 'Nombre de la localidad', 'text', 2);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (6, 'fk_c_province_id', 'CProvince', 'Provincia', 'Provincia a la que pertenece la localidad', 'selector', 2);
+-- Columnas de la tabla c_user
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (7, 'c_user_id', 'cUserId', 'Identificador', 'Identificador único del usuario', 'hidden', 11);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (8, 'email', 'email', 'Correo electrónico', 'Dirección de correo electrónico del usuario', 'text', 11);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (9, 'password', 'password', 'Contraseña', 'Contraseña de acceso del usuario', 'text', 11);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (10, 'is_protected', 'isProtected', 'Bloqueado', 'Si el acceso a la aplicación está bloqueado para el usuario', 'checkbox', 11);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (11, 'is_active', 'isActive', 'Activo', 'Si el usuario es un miembro activo de la aplicación', 'checkbox', 11);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (12, 'fk_c_person_id', 'CPerson', 'Persona', 'Persona relacionada con la cuenta de usuario, si tiene', 'selector', 11);
+-- Columnas de la tabla c_rol
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (13, 'c_rol_id', 'cRolId', 'Identificador', 'Identificador único del rol', 'hidden', 14);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (14, 'name', 'name', 'Nombre', 'Nombre del rol', 'text', 14);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (15, 'description', 'description', 'Descripcción', 'Breve descripcción del rol', 'text', 14);
+-- Columnas de la tabla c_rol_user
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (16, 'c_user_rol_id', 'cUserRolId', 'Identificador', 'Identificador único del rol del usuario', 'hidden', 15);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (17, 'fk_c_user_id', 'CUser', 'Usuario', 'Usuario asociado al rol', 'selector', 15);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (18, 'fk_c_rol_id', 'CRol', 'Rol', 'Rol asociado al usuario', 'selector', 15);
+-- Columnas de la tabla c_person
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (19, 'c_person_id', 'cPersonId', 'Identificador', 'Identificador único de la persona', 'hidden', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (20, 'dni', 'dni', 'DNI', 'Documento nacional de identidad', 'text', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (21, 'name', 'name', 'Nombre', 'Nombre', 'text', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (22, 'surname', 'surname', 'Apellidos', 'Apellidos', 'text', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (23, 'born_date', 'bornDate', 'Fecha de nacimiento', 'Fecha de nacimiento', 'date', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (24, 'address', 'address', 'Dirección', 'Dirección de residencia', 'text', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (25, 'phone_number', 'phoneNumber', 'Teléfono', 'Teléfono de contacto de la person', 'text', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (26, 'is_verified', 'isVerified', 'Persona verificada', 'Si la persona está verficada', 'checkbox', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (27, 'is_active', 'isActive', 'Persona activa', 'Si es una persona activa', 'checkbox', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (28, 'fk_authorizer_id', 'CPerson', 'Autorizante', 'Autorizante si tiene', 'selector', 3);
+INSERT INTO c_column (c_column_id, db_name, attribute_name, name, description, inputType, fk_c_table_id) VALUES (29, 'fk_c_locality_id', 'CLocality', 'Localidad', 'Localidad donde reside', 'selector', 3);
 
 INSERT INTO c_window (c_window_id, name, description, fk_c_table_id) VALUES (6, 'Provincias', 'Ventata con las provincias', 1);
+INSERT INTO c_window (c_window_id, name, description, fk_c_table_id) VALUES (11, 'Localidades', 'Ventata con las localidades', 2);
+INSERT INTO c_window (c_window_id, name, description, fk_c_table_id) VALUES (12, 'Usuarios', 'Ventata con los usuarios', 11);
+INSERT INTO c_window (c_window_id, name, description, fk_c_table_id) VALUES (13, 'Roles', 'Ventata con los roles', 14);
+INSERT INTO c_window (c_window_id, name, description, fk_c_table_id) VALUES (14, 'Roles de usuario', 'Ventata con los roles de cada usuario', 15);
 
 INSERT INTO c_report (c_report_id, report_path) VALUES (5, '/core/report/getTable.jrxml');
 
@@ -498,6 +544,10 @@ INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (4, TRUE, 4, 5);
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (5, TRUE, 6, 4);
 INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (6, TRUE, 7, 7);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (7, TRUE, 11, 4);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (8, TRUE, 12, 4);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (9, TRUE, 13, 4);
+INSERT INTO c_process_view (c_process_view_id, is_default, fk_c_process_id, fk_c_view_id) VALUES (10, TRUE, 14, 4);
 
 SELECT setval('c_province_c_province_id_seq', (SELECT MAX(c_province_id) FROM c_province));
 SELECT setval('c_locality_c_locality_id_seq', (SELECT MAX(c_locality_id) FROM c_locality));

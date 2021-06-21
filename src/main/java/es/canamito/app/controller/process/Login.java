@@ -27,10 +27,10 @@ public class Login extends CBProcessImpl implements CBProcess {
 	}
 
 	public void execute() throws Exception {
-		log.debug("executing " + this.getClass().getCanonicalName());
+		log.trace("execute: " + this.getClass().getCanonicalName());
 
 		if (isPost()) {
-			log.trace("incoming post");
+			log.trace("execute: incoming post");
 
 			CUser user = isUser();
 
@@ -41,18 +41,18 @@ public class Login extends CBProcessImpl implements CBProcess {
 					getRequest().getSession().setAttribute("msg", msg);
 					getResponse().sendRedirect((getRequest().getContextPath() + "/"));
 				} catch (IOException e) {
-					log.error(e.getClass() + ": " + e.getMessage());
+					log.error("execute: " + e.getClass() + ": " + e.getMessage());
 				}
 				return;
 			} else {
-				log.info("invalid credentials");
+				log.info("execute: invalid credentials");
 
 				CBMessage msg = new CBMessage("warning", "Credenciales no válidas",
 						"El correo electrónico no existe o la contraseña es incorrecta");
 				getRequest().getSession().setAttribute("msg", msg);
 			}
 		}
-		log.debug("viewing with " + getProcessDefaultView());
+		log.trace("execute: viewing with " + getProcessDefaultView());
 		getRequest().getRequestDispatcher(getProcessDefaultView()).forward(getRequest(), getResponse());
 	}
 
@@ -80,12 +80,12 @@ public class Login extends CBProcessImpl implements CBProcess {
 			if (!lUser.isEmpty()) {
 				if (lUser.get(0).getPassword().equals(getRequest().getParameter("input_password"))) {
 					res = lUser.get(0);
-					log.trace("login succesful as " + res.getEmail());
+					log.trace("isUser: login succesful as " + res.getEmail());
 				} else {
-					log.trace("invalid password");
+					log.trace("isUser: invalid password");
 				}
 			} else {
-				log.info("email does not exist");
+				log.info("isUser: email does not exist");
 			}
 		} catch (Exception e) {
 			log.error("isUser: " + e.getClass() + ": " + e.getMessage());

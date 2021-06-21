@@ -190,6 +190,7 @@ CREATE TABLE c_column (
   attribute_name VARCHAR(64) NOT NULL,
   name VARCHAR(64) NOT NULL,
   description VARCHAR(256),
+  inputType VARCHAR(64),
 
   fk_c_table_id INTEGER NOT NULL REFERENCES c_table (c_table_id) ON DELETE CASCADE
 );

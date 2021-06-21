@@ -4,11 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Clase de utilidad para almacenar objectos en forma de árbol
+ * Clase de utilidad para almacenar entidades en árbol
  * 
  * @author wkl
  * @version 1.210506 - Implementación inicial
- * @param <T> El tipo de objecto que el árbol va a contener
+ * @param <T> El tipo de entidad que el árbol va a contener
  */
 public class CBTree<T extends Comparable<T>> implements Comparable<CBTree<T>> {
 
@@ -41,9 +41,8 @@ public class CBTree<T extends Comparable<T>> implements Comparable<CBTree<T>> {
 
 	/**
 	 * El orden natural de los nodos dependerá del tipo que sea (ej. CMenu se ordena
-	 * por alfabéticamente por el nombre)
+	 * por nombre alfabéticamente)
 	 */
-	@Override
 	public int compareTo(CBTree<T> node) {
 		return this.getNode().compareTo(node.getNode());
 	}

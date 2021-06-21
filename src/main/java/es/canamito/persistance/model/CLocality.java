@@ -1,38 +1,55 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import es.canamito.app.model.CBAttribute;
 
 /**
  * The persistent class for the c_locality database table.
  * 
+ * @author wkl
+ * @version 1.210618 - Implementación y documentación de la interfaz
+ *          CBWindowable
  */
 @Entity
-@Table(name="c_locality")
-@NamedQuery(name="CLocality.findAll", query="SELECT c FROM CLocality c")
-public class CLocality implements Serializable {
+@Table(name = "c_locality")
+@NamedQuery(name = "CLocality.findAll", query = "SELECT c FROM CLocality c")
+public class CLocality implements Serializable, CBWindowable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="c_locality_id", unique=true, nullable=false)
+	@SequenceGenerator(name = "c_locality_c_locality_id_seq", sequenceName = "c_locality_c_locality_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "c_locality_c_locality_id_seq")
+	@Column(name = "c_locality_id", unique = true, nullable = false)
 	private Integer cLocalityId;
 
-	@Column(nullable=false, length=128)
+	@Column(nullable = false, length = 128)
 	private String name;
 
-	@Column(name="postal_code", nullable=false, length=5)
+	@Column(name = "postal_code", nullable = false, length = 5)
 	private String postalCode;
 
-	//bi-directional many-to-one association to CProvince
+	// bi-directional many-to-one association to CProvince
 	@ManyToOne
-	@JoinColumn(name="fk_c_province_id", nullable=false)
+	@JoinColumn(name = "fk_c_province_id", nullable = false)
 	private CProvince CProvince;
 
-	//bi-directional many-to-one association to CPerson
-	@OneToMany(mappedBy="CLocality")
+	// bi-directional many-to-one association to CPerson
+	@OneToMany(mappedBy = "CLocality")
 	private List<CPerson> CPersons;
 
 	public CLocality() {
@@ -90,6 +107,28 @@ public class CLocality implements Serializable {
 		CPerson.setCLocality(null);
 
 		return CPerson;
+	}
+
+	public CBAttribute getId() {
+		return new CBAttribute("id", "cLocalityId", this.cLocalityId, this);
+	}
+
+	public CBAttribute getIdentifier() {
+		return new CBAttribute("text", "name", this.name, this);
+	}
+
+	public List<CBAttribute> getAttributes() {
+		List<CBAttribute> res = new ArrayList<CBAttribute>();
+
+		CBAttribute name = new CBAttribute("text", "name", this.name, this);
+		CBAttribute postalCode = new CBAttribute("text", "postalCode", this.postalCode, this);
+		CBAttribute CProvince = new CBAttribute("selector", "CProvince", this.CProvince, this);
+
+		res.add(name);
+		res.add(postalCode);
+		res.add(CProvince);
+
+		return res;
 	}
 
 }

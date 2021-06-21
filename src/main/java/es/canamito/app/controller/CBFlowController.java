@@ -16,7 +16,8 @@ import es.canamito.persistance.controller.CBDalUtils;
 import es.canamito.persistance.model.CProcess;
 
 /**
- * Controlador principal que ejecuta el proceso solicitado
+ * Controlador principal que ejecuta el proceso solicitado. Toda interacción con
+ * la aplicación debe pasar por aqui.
  * 
  * @author wkl
  * @version 1.210522 - Documentación e implementación inicial del controlador
@@ -31,9 +32,8 @@ public class CBFlowController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		log.info("doGet to " + request.getRequestURI().substring(request.getContextPath().length()));
+		log.trace("doGet: to " + request.getRequestURI().substring(request.getContextPath().length()));
 		try {
-
 			CProcess process = CBDalUtils.getProcessFromMenu(request);
 
 			if (process != null) {
@@ -50,22 +50,20 @@ public class CBFlowController extends HttpServlet {
 			} else {
 				String goingTo = request.getRequestURI().substring(request.getContextPath().length()).replace("/app/",
 						"");
-				log.info("process " + goingTo + " does not exist");
+				log.info("doGet: process " + goingTo + " does not exist");
 				request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp")
 						.forward(request, response);
 			}
 		} catch (Exception e) {
-			log.error(e.getClass() + ": " + ": " + e.getMessage());
+			log.error("doGet: " + e.getClass() + ": " + ": " + e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/jsp/es/canamito/app/view/process/Unauthorized.jsp").forward(request,
 					response);
-		} finally {
-
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		log.debug("doPost to " + request.getRequestURI().substring(request.getContextPath().length()));
+		log.info("doPost: to " + request.getRequestURI().substring(request.getContextPath().length()));
 		doGet(request, response);
 	}
 

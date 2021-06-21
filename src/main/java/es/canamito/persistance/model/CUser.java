@@ -16,14 +16,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import es.canamito.app.model.CBAttribute;
+
 /**
  * The persistent class for the c_user database table.
  * 
+ * @author wkl
+ * @version 1.210618 - Implementación y documentación de la interfaz
+ *          CBWindowable
  */
 @Entity
 @Table(name = "c_user")
 @NamedQuery(name = "CUser.findAll", query = "SELECT c FROM CUser c")
-public class CUser implements Serializable {
+public class CUser implements Serializable, CBWindowable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -178,6 +183,32 @@ public class CUser implements Serializable {
 		CUserRol.setCUser(null);
 
 		return CUserRol;
+	}
+
+	public CBAttribute getId() {
+		return new CBAttribute("id", "cUserId", this.cUserId, this);
+	}
+
+	public CBAttribute getIdentifier() {
+		return new CBAttribute("email", "email", this.email, this);
+	}
+
+	public List<CBAttribute> getAttributes() {
+		List<CBAttribute> res = new ArrayList<CBAttribute>();
+
+		CBAttribute email = new CBAttribute("email", "email", this.email, this);
+		CBAttribute password = new CBAttribute("text", "password", this.password, this);
+		CBAttribute isProtected = new CBAttribute("checkbox", "isProtected", this.isProtected, this);
+		CBAttribute isActive = new CBAttribute("checkbox", "isActive", this.isActive, this);
+		CBAttribute CPerson = new CBAttribute("selector", "CPerson", this.CPerson, this);
+
+		res.add(email);
+		res.add(password);
+		res.add(isProtected);
+		res.add(isActive);
+		res.add(CPerson);
+
+		return res;
 	}
 
 }

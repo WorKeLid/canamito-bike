@@ -1,79 +1,98 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import es.canamito.app.model.CBAttribute;
 
 /**
  * The persistent class for the c_person database table.
  * 
+ * @author wkl
+ * @version 1.210618 - Implementación y documentación de la interfaz
+ *          CBWindowable
  */
 @Entity
-@Table(name="c_person")
-@NamedQuery(name="CPerson.findAll", query="SELECT c FROM CPerson c")
-public class CPerson implements Serializable {
+@Table(name = "c_person")
+@NamedQuery(name = "CPerson.findAll", query = "SELECT c FROM CPerson c")
+public class CPerson implements Serializable, CBWindowable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="c_person_id", unique=true, nullable=false)
+	@SequenceGenerator(name = "c_person_c_person_id_seq", sequenceName = "c_person_c_person_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "c_person_c_person_id_seq")
+	@Column(name = "c_person_id", unique = true, nullable = false)
 	private Integer cPersonId;
 
-	@Column(nullable=false, length=128)
+	@Column(nullable = false, length = 128)
 	private String address;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="born_date", nullable=false)
+	@Column(name = "born_date", nullable = false)
 	private Date bornDate;
 
-	@Column(nullable=false, length=9)
+	@Column(nullable = false, length = 9)
 	private String dni;
 
-	@Column(name="is_active", nullable=false)
+	@Column(name = "is_active", nullable = false)
 	private Boolean isActive;
 
-	@Column(name="is_verified", nullable=false)
+	@Column(name = "is_verified", nullable = false)
 	private Boolean isVerified;
 
-	@Column(nullable=false, length=128)
+	@Column(nullable = false, length = 128)
 	private String name;
 
-	@Column(name="phone_number", nullable=false, length=9)
+	@Column(name = "phone_number", nullable = false, length = 9)
 	private String phoneNumber;
 
-	@Column(nullable=false, length=128)
+	@Column(nullable = false, length = 128)
 	private String surname;
 
-	//bi-directional many-to-one association to CGroupPerson
-	@OneToMany(mappedBy="CPerson")
+	// bi-directional many-to-one association to CGroupPerson
+	@OneToMany(mappedBy = "CPerson")
 	private List<CGroupPerson> CGroupPersons;
 
-	//bi-directional many-to-one association to CLocality
+	// bi-directional many-to-one association to CLocality
 	@ManyToOne
-	@JoinColumn(name="fk_c_locality_id", nullable=false)
+	@JoinColumn(name = "fk_c_locality_id", nullable = false)
 	private CLocality CLocality;
 
-	//bi-directional many-to-one association to CPerson
+	// bi-directional many-to-one association to CPerson
 	@ManyToOne
-	@JoinColumn(name="fk_authorizer_id")
+	@JoinColumn(name = "fk_authorizer_id")
 	private CPerson CPerson;
 
-	//bi-directional many-to-one association to CPerson
-	@OneToMany(mappedBy="CPerson")
+	// bi-directional many-to-one association to CPerson
+	@OneToMany(mappedBy = "CPerson")
 	private List<CPerson> CPersons;
 
-	//bi-directional many-to-one association to CPersonAuthorization
-	@OneToMany(mappedBy="CPerson")
+	// bi-directional many-to-one association to CPersonAuthorization
+	@OneToMany(mappedBy = "CPerson")
 	private List<CPersonAuthorization> CPersonAuthorizations;
 
-	//bi-directional many-to-one association to CPersonOrganization
-	@OneToMany(mappedBy="CPerson")
+	// bi-directional many-to-one association to CPersonOrganization
+	@OneToMany(mappedBy = "CPerson")
 	private List<CPersonOrganization> CPersonOrganizations;
 
-	//bi-directional many-to-one association to CUser
-	@OneToMany(mappedBy="CPerson")
+	// bi-directional many-to-one association to CUser
+	@OneToMany(mappedBy = "CPerson")
 	private List<CUser> CUsers;
 
 	public CPerson() {
@@ -277,4 +296,40 @@ public class CPerson implements Serializable {
 		return CUser;
 	}
 
+	public CBAttribute getId() {
+		return new CBAttribute("id", "cPersonId", this.cPersonId, this);
+	}
+
+	public CBAttribute getIdentifier() {
+		String identifier = this.surname + ", " + this.name;
+		return new CBAttribute("text", "cPerson", identifier, this);
+	}
+
+	public List<CBAttribute> getAttributes() {
+		List<CBAttribute> res = new ArrayList<CBAttribute>();
+
+		CBAttribute dni = new CBAttribute("text", "dni", this.dni, this);
+		CBAttribute name = new CBAttribute("text", "name", this.name, this);
+		CBAttribute surname = new CBAttribute("text", "surname", this.surname, this);
+		CBAttribute bornDate = new CBAttribute("date", "bornDate", this.bornDate, this);
+		CBAttribute address = new CBAttribute("text", "address", this.address, this);
+		CBAttribute phoneNumber = new CBAttribute("text", "phoneNumber", this.phoneNumber, this);
+		CBAttribute isVerified = new CBAttribute("text", "isVerfied", this.isVerified, this);
+		CBAttribute isActive = new CBAttribute("text", "isActive", this.isActive, this);
+		CBAttribute CAuthorizer = new CBAttribute("selector", "CPerson", this.CPerson, this);
+		CBAttribute CLocality = new CBAttribute("selector", "CLocality", this.CLocality, this);
+
+		res.add(dni);
+		res.add(name);
+		res.add(surname);
+		res.add(bornDate);
+		res.add(address);
+		res.add(phoneNumber);
+		res.add(isVerified);
+		res.add(isActive);
+		res.add(CAuthorizer);
+		res.add(CLocality);
+
+		return res;
+	}
 }

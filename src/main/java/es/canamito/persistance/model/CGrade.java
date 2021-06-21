@@ -1,30 +1,39 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the c_grade database table.
  * 
  */
 @Entity
-@Table(name="c_grade")
-@NamedQuery(name="CGrade.findAll", query="SELECT c FROM CGrade c")
+@Table(name = "c_grade")
+@NamedQuery(name = "CGrade.findAll", query = "SELECT c FROM CGrade c")
 public class CGrade implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="c_grade_id", unique=true, nullable=false)
+	@SequenceGenerator(name = "c_grade_c_grade_id_seq", sequenceName = "c_grade_c_grade_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "c_grade_c_grade_id_seq")
+	@Column(name = "c_grade_id", unique = true, nullable = false)
 	private Integer cGradeId;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Integer grade;
 
-	//bi-directional many-to-one association to CGroup
-	@OneToMany(mappedBy="CGrade")
+	// bi-directional many-to-one association to CGroup
+	@OneToMany(mappedBy = "CGrade")
 	private List<CGroup> CGroups;
 
 	public CGrade() {

@@ -14,45 +14,49 @@ import es.canamito.app.model.process.CBProcess;
 import es.canamito.app.model.process.CBWindowImpl;
 import es.canamito.persistance.controller.CBDal;
 import es.canamito.persistance.model.CBWindowable;
+import es.canamito.persistance.model.CLocality;
 import es.canamito.persistance.model.CProvince;
 import es.canamito.persistance.model.CTable;
 
 /**
- * Proceso ventana para mostrar información sobre las provincias
+ * Proceso ventana para mostrar información sobre las localidades
  * 
  * @author wkl
- * @version 1.210611 - Implementación y documentación inicial
+ * @version 1.210619 - Implementación y documentación inicial
  */
-public class Province extends CBWindowImpl implements CBProcess {
+public class Locality extends CBWindowImpl implements CBProcess {
 
-	public Province() {
+	public Locality() {
 		super();
 	}
 
 	public void setRequest(HttpServletRequest request) {
 		this.httpServletRequest = request;
 
-		getRequest().setAttribute("title", "Provincias");
+		getRequest().setAttribute("title", "Localidades");
 
 		if (isPost()) {
-			log.info("setRequest: posting province");
+			log.info("setRequest: posting locality");
 
 			String id = (String) getRequest().getParameter("inpid");
-			String name = (String) getRequest().getParameter("inpname");
 
-			setProvince(id, name);
+			String name = (String) getRequest().getParameter("inpname");
+			String postalCode = (String) getRequest().getParameter("inppostalCode");
+			String cProvinceId = (String) getRequest().getParameter("inpCProvince");
+
+			setLocality(id, name, postalCode, cProvinceId);
 		}
 
 		CBDal cbd = new CBDal();
-		TypedQuery<CProvince> query = cbd.getEntityManager().createNamedQuery("CProvince.findAll", CProvince.class);
-		List<CProvince> lProvinces = query.getResultList();
+		TypedQuery<CLocality> query = cbd.getEntityManager().createNamedQuery("CLocality.findAll", CLocality.class);
+		List<CLocality> lLocalities = query.getResultList();
 
 		List<CBWindowable> model = new ArrayList<CBWindowable>();
-		for (CProvince cp : lProvinces) {
+		for (CLocality cp : lLocalities) {
 			model.add(cp);
 		}
 
-		CTable metadata = getMetadata("c_province");
+		CTable metadata = getMetadata("c_locality");
 
 		Map<CTable, List<CBWindowable>> table = new HashMap<CTable, List<CBWindowable>>();
 		table.put(metadata, model);
@@ -67,24 +71,32 @@ public class Province extends CBWindowImpl implements CBProcess {
 	 * @param name El nuevo nombre de la provincia
 	 * @return La provincia editada
 	 */
-	private CProvince setProvince(String id, String name) {
-		CProvince res = null;
+	private CLocality setLocality(String id, String name, String postalCode, String cProvinceId) {
+		CLocality res = null;
 
 		try {
 			CBDal cbd = new CBDal();
 
 			cbd.getEntityTransaction().begin();
 			if (id != null) {
-				int cProvinceId = Integer.valueOf(id);
-				String sql = "SELECT p FROM CProvince p WHERE " + "p.cProvinceId=" + cProvinceId;
+				int cLocalityId = Integer.valueOf(id);
+				String sql = "SELECT p FROM CLocality p WHERE " + "p.cLocalityId=" + cLocalityId;
 
 				Query q = cbd.getEntityManager().createQuery(sql);
-				res = (CProvince) q.getSingleResult();
+				res = (CLocality) q.getSingleResult();
 			} else {
-				res = new CProvince();
+				res = new CLocality();
 				cbd.getEntityManager().persist(res);
 			}
 			res.setName(name);
+			res.setPostalCode(postalCode);
+
+			if (!cProvinceId.equals("")) {
+				CProvince cProvince = cbd.getEntityManager().find(CProvince.class, Integer.valueOf(cProvinceId));
+				res.setCProvince(cProvince);
+			} else {
+				res.setCProvince(null);
+			}
 
 			cbd.getEntityTransaction().commit();
 

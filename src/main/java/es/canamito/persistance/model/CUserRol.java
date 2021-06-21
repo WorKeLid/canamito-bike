@@ -1,6 +1,8 @@
 package es.canamito.persistance.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,14 +15,19 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import es.canamito.app.model.CBAttribute;
+
 /**
  * The persistent class for the c_user_rol database table.
  * 
+ * @author wkl
+ * @version 1.210618 - Implementación y documentación de la interfaz
+ *          CBWindowable
  */
 @Entity
 @Table(name = "c_user_rol")
 @NamedQuery(name = "CUserRol.findAll", query = "SELECT c FROM CUserRol c")
-public class CUserRol implements Serializable {
+public class CUserRol implements Serializable, CBWindowable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -64,6 +71,28 @@ public class CUserRol implements Serializable {
 
 	public void setCUser(CUser CUser) {
 		this.CUser = CUser;
+	}
+
+	public CBAttribute getId() {
+		return new CBAttribute("text", "cUserRolId", this.cUserRolId, this);
+	}
+
+	public CBAttribute getIdentifier() {
+		String identifier = this.CUser.getIdentifier().getValue().toString()
+				+ this.CRol.getIdentifier().getValue().toString();
+		return new CBAttribute("text", "cUsetRol", identifier, this);
+	}
+
+	public List<CBAttribute> getAttributes() {
+		List<CBAttribute> res = new ArrayList<CBAttribute>();
+
+		CBAttribute CUser = new CBAttribute("selector", "CUser", this.CUser, this);
+		CBAttribute CRol = new CBAttribute("selector", "CRol", this.CRol, this);
+
+		res.add(CUser);
+		res.add(CRol);
+
+		return res;
 	}
 
 }
